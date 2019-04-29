@@ -3,7 +3,7 @@
 #include "CardData.h"
 
 CCardCtrl::CCardCtrl() :
-	m_pCard(nullptr)
+	m_pCard(nullptr), m_dRatio(1.0)
 {
 }
 
@@ -103,8 +103,9 @@ void CCardCtrl::OnPaint()
 	dc.Rectangle(rect);
 #endif
 
-	m_CardImage.Draw(dc.GetSafeHdc(), rect.left,
-		rect.top, rect.Width(), rect.Height());
+	long w = m_CardImage.GetWidth();
+	long h = m_CardImage.GetHeight();
 
+	m_CardImage.Draw(dc.GetSafeHdc(), rect.left, rect.top - (60 * m_dRatio), w * m_dRatio, h * m_dRatio);
 	return CStatic::OnPaint();
 }
