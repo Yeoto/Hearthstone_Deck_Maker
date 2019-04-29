@@ -36,6 +36,9 @@
     <ClInclude Include="CardData.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="CardCtrl.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -52,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="CardData.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CardCtrl.cpp">
+      <Filter>Dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
