@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Dialog">
+      <UniqueIdentifier>{0128a270-caac-45ec-b398-fa6d5684efec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{bd3ee173-780b-4127-b78b-1e8568f26d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{376a7806-fde9-4994-b7a6-1b1f5919f37e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{ef0072c0-940d-4876-a221-fa95478f65e5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HeaderStone_Deck_MakerDlg.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="HeaderStone_Deck_Maker.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="MCurl.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="CardData.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="HeaderStone_Deck_Maker.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="MCurl.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CardData.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\HeaderStone_Deck_Maker.ico">
+      <Filter>Resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HeaderStoneDeckMaker.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\HeaderStoneDeckMaker.rc2">
+      <Filter>Resource</Filter>
+    </None>
+  </ItemGroup>
+</Project>
