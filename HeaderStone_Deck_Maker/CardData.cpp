@@ -31,17 +31,17 @@ E_CARDSET CCard::GetCardSetByStr(std::string str)
 		return E_CARDSET_ONE_NIGHT_IN_KARAZHAN;
 	else if (str.compare("mean streets of gadgetzan") == 0)
 		return E_CARDSET_MEAN_STREETS_OF_GADGETZAN;
-	else if (str.compare("journey to un'goro"))
+	else if (str.compare("journey to un'goro") == 0)
 		return E_CARDSET_JOURNEY_TO_UNGORO;
 	else if (str.compare("knights of the frozen throne") == 0)
 		return E_CARDSET_KNIGHTS_OF_THE_FROZEN_THRONE;
-	else if (str.compare("kobolds & catacombs"))
+	else if (str.compare("kobolds & catacombs") == 0)
 		return E_CARDSET_KOBOLDS_AND_CATACOMBS;
 	else if (str.compare("the witchwood") == 0)
 		return E_CARDSET_THE_WITCHWOOD;
 	else if (str.compare("the boomsday project") == 0)
 		return E_CARDSET_THE_BOOMSDAY_PROJECT;
-	else if (str.compare("rastakhan's rumble"))
+	else if (str.compare("rastakhan's rumble") == 0)
 		return E_CARDSET_RASTAKHAN_S_RUMBLE;
 	else if (str.compare("rise of shadows") == 0)
 		return E_CARDSET_RISE_OF_SHADOWS;
@@ -341,6 +341,11 @@ void CCard::DownloadImg(std::string imgPath)
 
 CCardListMgr* CCardListMgr::m_pInstance;
 
+CCardListMgr::CCardListMgr()
+{
+	MakeTempCard();
+}
+
 CCardListMgr::~CCardListMgr()
 {
 	for (CCard* pCard : vecCardList)
@@ -351,6 +356,7 @@ CCardListMgr::~CCardListMgr()
 			pCard = NULL;
 		}
 	}
+	delete m_pTempCard;
 }
 
 CCardListMgr * CCardListMgr::GetInstance()
@@ -367,6 +373,24 @@ CCardListMgr * CCardListMgr::GetInstance()
 void CCardListMgr::AddCard(CCard * pCard)
 {
 	vecCardList.push_back(pCard);
+}
+
+void CCardListMgr::MakeTempCard()
+{
+	TCHAR path[_MAX_PATH] = _T("");
+	GetModuleFileName(NULL, path, _MAX_PATH);
+
+	std::wstring temp = path;
+	std::string pathT; pathT.assign(temp.begin(), temp.end());
+	std::string UpperPath = pathT.substr(0, pathT.rfind(L'\\'));
+
+	std::string imgPath = UpperPath + "\\Image\\";
+
+	m_pTempCard = new CCard();
+	m_pTempCard->strCardID = L"temp";
+	m_pTempCard->urlImg = L"/temp.png";
+	m_pTempCard->imgfilePath = imgPath;
+	m_pTempCard->DownloadImg(imgPath);
 }
 
 void CCardListMgr::TraceAll()

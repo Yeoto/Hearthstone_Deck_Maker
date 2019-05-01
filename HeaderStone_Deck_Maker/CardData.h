@@ -136,16 +136,20 @@ public:
 
 class CCardListMgr
 {
+	CCardListMgr();
 	~CCardListMgr();
 public:
 	static CCardListMgr* GetInstance();
 	const std::vector<CCard*>& GetCardList() { return vecCardList; };
+	CCard* GetTempCard() { return m_pTempCard; };
 
 	void AddCard(CCard* pCard);
+	void MakeTempCard();
 	void TraceAll();
 	void DownloadAllImg();
 private:
 	static CCardListMgr* m_pInstance;
 	static void destroy() { delete m_pInstance; }
 	std::vector<CCard*> vecCardList;
+	CCard* m_pTempCard;
 };

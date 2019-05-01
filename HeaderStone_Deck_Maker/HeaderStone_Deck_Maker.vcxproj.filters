@@ -42,6 +42,9 @@
     <ClInclude Include="CardCtrl.h">
       <Filter>Dialog\Control</Filter>
     </ClInclude>
+    <ClInclude Include="CardListCtrl.h">
+      <Filter>Dialog\Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -62,6 +65,9 @@
     <ClCompile Include="CardCtrl.cpp">
       <Filter>Dialog\Control</Filter>
     </ClCompile>
+    <ClCompile Include="CardListCtrl.cpp">
+      <Filter>Dialog\Control</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\HeaderStone_Deck_Maker.ico">
@@ -77,5 +83,6 @@
     <None Include="res\HeaderStoneDeckMaker.rc2">
       <Filter>Resource</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

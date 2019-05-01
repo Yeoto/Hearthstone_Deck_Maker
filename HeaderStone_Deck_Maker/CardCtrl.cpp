@@ -33,9 +33,9 @@ void CCardCtrl::SetCardData(CCard * pCard)
 		m_CardImage.Destroy();
 
 		CRect rect;
-		this->GetClientRect(rect);
-		this->InvalidateRect(rect, TRUE);
-		this->UpdateWindow();
+		//this->GetClientRect(rect);
+		//this->InvalidateRect(rect, TRUE);
+		//this->UpdateWindow();
 	}
 
 	std::wstring temp;
@@ -81,8 +81,9 @@ BOOL CCardCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-BOOL CCardCtrl::Create(const RECT & rect, CWnd * pParentWnd)
+BOOL CCardCtrl::Create(const RECT & rect, CWnd * pParentWnd, BOOL bUseTemp)
 {
+	m_bDrawCard = bUseTemp;
 	if (m_pCard == NULL || m_CardImage == NULL)
 	{
 		ASSERT(0);
@@ -100,6 +101,9 @@ BOOL CCardCtrl::Create(const RECT & rect, CWnd * pParentWnd)
 
 void CCardCtrl::OnPaint()
 {
+	if (m_bDrawCard == TRUE)
+		return CWnd::OnPaint();
+
 	CPaintDC dc(this);
 
 	CRect rect;
@@ -115,9 +119,6 @@ void CCardCtrl::OnPaint()
 		long h = m_CardImage.GetHeight();
 		m_CardImage.Draw(dc.GetSafeHdc(), rect.left + (LEFT_OFFSET * m_dRatio), rect.top + (TOP_OFFSET * m_dRatio), w * m_dRatio, h * m_dRatio);
 	}
-	else
-	{
-	}
 	return CWnd::OnPaint();
 }
 
@@ -130,5 +131,18 @@ void CCardCtrl::SetRatio(double dRatio)
 		long w = m_CardImage.GetWidth();
 		long h = m_CardImage.GetHeight();
 		SetWindowPos(&wndTop, 0, 0, w*m_dRatio + ((RIGHT_OFFSET + LEFT_OFFSET) * m_dRatio), h*m_dRatio + ((BOTTOM_OFFSET + TOP_OFFSET) * m_dRatio), SWP_NOZORDER | SWP_NOMOVE);
+	}
+}
+
+void CCardCtrl::DrawCard(CDC* pDC)
+{
+	CRect rect;
+	GetClientRect(rect);
+
+	if (m_CardImage != NULL)
+	{
+		long w = m_CardImage.GetWidth();
+		long h = m_CardImage.GetHeight();
+		m_CardImage.Draw(pDC->GetSafeHdc(), rect.left + (LEFT_OFFSET * m_dRatio), rect.top + (TOP_OFFSET * m_dRatio), w * m_dRatio, h * m_dRatio);
 	}
 }
