@@ -220,6 +220,9 @@ BOOL CCard::ImportCardData(std::string name, std::string value)
 BOOL CCard::ImportCardID(std::string value)
 {
 	this->strCardID.assign(value.begin(), value.end());
+	this->urlImg = L"https://art.hearthstonejson.com/v1/render/latest/koKR/256x/" + this->strCardID + L".png";
+	//황카는 보류
+	//this->urlImgGold;
 	return TRUE;
 }
 
@@ -303,14 +306,14 @@ BOOL CCard::ImportArtist(std::string value)
 
 BOOL CCard::ImportImgURL(std::string value)
 {
-	this->urlImg.assign(value.begin(), value.end());
+	//this->urlImg.assign(value.begin(), value.end());
 	//DownloadImg();
 	return TRUE;
 }
 
 BOOL CCard::ImportImgGoldURL(std::string value)
 {
-	this->urlImgGold.assign(value.begin(), value.end());
+	//this->urlImgGold.assign(value.begin(), value.end());
 	return TRUE;
 }
 

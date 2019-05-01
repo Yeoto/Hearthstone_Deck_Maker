@@ -13,6 +13,9 @@
     <Filter Include="Util">
       <UniqueIdentifier>{ef0072c0-940d-4876-a221-fa95478f65e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dialog\Control">
+      <UniqueIdentifier>{2ab68266-db2d-4511-9888-6013dd7b53f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeaderStone_Deck_MakerDlg.h">
@@ -37,7 +40,7 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="CardCtrl.h">
-      <Filter>Dialog</Filter>
+      <Filter>Dialog\Control</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -57,7 +60,7 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="CardCtrl.cpp">
-      <Filter>Dialog</Filter>
+      <Filter>Dialog\Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

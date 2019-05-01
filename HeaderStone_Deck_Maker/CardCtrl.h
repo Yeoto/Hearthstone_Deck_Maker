@@ -3,7 +3,7 @@
 #include "CardData.h"
 
 class CCardCtrl :
-	public CStatic
+	public CWnd
 {
 public:
 	CCardCtrl();
@@ -12,10 +12,10 @@ public:
 	void SetCardData(CCard* pCard);
 	
 	virtual BOOL OnCreate(LPCREATESTRUCT lpCreateStruct);
-	virtual BOOL Create(LPCTSTR lpszText, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID = 0xffff);
+	BOOL Create(const RECT& rect, CWnd* pParentWnd);
 	virtual afx_msg void OnPaint();
 
-	void SetRatio(double dRatio) { m_dRatio = dRatio; }
+	void SetRatio(double dRatio);
 	DECLARE_MESSAGE_MAP()
 private:
 	double m_dRatio;
