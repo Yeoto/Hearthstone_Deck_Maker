@@ -200,6 +200,7 @@
     <ClInclude Include="CardCtrl.h" />
     <ClInclude Include="CardListCtrl.h" />
     <ClInclude Include="CardNotifier.h" />
+    <ClInclude Include="DeckListCtrl.h" />
     <ClInclude Include="HeaderStone_Deck_Maker.h" />
     <ClInclude Include="HeaderStone_Deck_MakerDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -207,11 +208,13 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="MCurl.h" />
     <ClInclude Include="CardData.h" />
+    <ClInclude Include="NotifyMsg.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CardCtrl.cpp" />
     <ClCompile Include="CardListCtrl.cpp" />
     <ClCompile Include="CardNotifier.cpp" />
+    <ClCompile Include="DeckListCtrl.cpp" />
     <ClCompile Include="HeaderStone_Deck_Maker.cpp" />
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

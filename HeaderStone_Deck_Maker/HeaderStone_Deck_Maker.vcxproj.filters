@@ -16,6 +16,9 @@
     <Filter Include="Dialog\Control">
       <UniqueIdentifier>{2ab68266-db2d-4511-9888-6013dd7b53f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dialog\Notifier">
+      <UniqueIdentifier>{5d974107-7e51-4258-9f50-7b917a4381f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeaderStone_Deck_MakerDlg.h">
@@ -46,6 +49,12 @@
       <Filter>Dialog\Control</Filter>
     </ClInclude>
     <ClInclude Include="CardNotifier.h">
+      <Filter>Dialog\Notifier</Filter>
+    </ClInclude>
+    <ClInclude Include="NotifyMsg.h">
+      <Filter>Dialog\Notifier</Filter>
+    </ClInclude>
+    <ClInclude Include="DeckListCtrl.h">
       <Filter>Dialog\Control</Filter>
     </ClInclude>
   </ItemGroup>
@@ -72,6 +81,9 @@
       <Filter>Dialog\Control</Filter>
     </ClCompile>
     <ClCompile Include="CardNotifier.cpp">
+      <Filter>Dialog\Notifier</Filter>
+    </ClCompile>
+    <ClCompile Include="DeckListCtrl.cpp">
       <Filter>Dialog\Control</Filter>
     </ClCompile>
   </ItemGroup>
