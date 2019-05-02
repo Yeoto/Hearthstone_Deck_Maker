@@ -33,7 +33,7 @@ private:
 	int m_nCol;
 	int m_nRow;
 	int m_nStartIdx;
-	int m_nMaxPage;
+	int m_nMaxIdx;
 public:
 	afx_msg void OnDestroy();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);

@@ -60,11 +60,7 @@ void CCardListCtrl::CalcColRowMaxPage(BOOL bRepos)
 	if (m_nRow < 1) m_nRow = 1;
 
 	int nAllCardCnt = CCardListMgr::GetInstance()->GetCardList().size();
-
-	double dPageTemp = nAllCardCnt / (m_nCol * m_nRow * 1.0);
-	if ((int)(dPageTemp * 10) % 10 > 0)
-		dPageTemp++;
-	m_nMaxPage = (int)(dPageTemp);
+	m_nMaxIdx = nAllCardCnt;
 
 	if (m_vecCardCtrl.size() < m_nCol * m_nRow)
 	{
@@ -119,12 +115,11 @@ void CCardListCtrl::ReposCards()
 void CCardListCtrl::ModifyCardData()
 {
 	ASSERT(m_nCol * m_nRow == m_vecCardCtrl.size());
-	int nDataStartIdx = (m_nCol * m_nRow) * m_nStartIdx;
 	std::vector<CCard*> vecCardList = CCardListMgr::GetInstance()->GetCardList();
 	for (int i = 0; i < m_nCol * m_nRow; i++)
 	{
 		CCardCtrl* pWnd = (CCardCtrl*)m_vecCardCtrl[i];
-		int nCardIdx = nDataStartIdx + i;
+		int nCardIdx = m_nStartIdx + i;
 		if (nCardIdx >= vecCardList.size())
 		{
 			pWnd->SetDrawCard(TRUE);
@@ -208,7 +203,7 @@ void CCardListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if (rtLeftBtn.PtInRect(point))
 	{
-		m_nStartIdx--;
+		m_nStartIdx -= m_nCol * m_nRow;
 		if (m_nStartIdx < 0)
 			m_nStartIdx = 0;
 		else
@@ -216,9 +211,9 @@ void CCardListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	else if (rtRightBtn.PtInRect(point))
 	{
-		m_nStartIdx++;
-		if (m_nStartIdx >= m_nMaxPage)
-			m_nStartIdx = m_nMaxPage;
+		m_nStartIdx += m_nCol * m_nRow;
+		if (m_nStartIdx >= m_nMaxIdx)
+			m_nStartIdx = m_nMaxIdx;
 		else
 			ModifyCardData();
 	}
@@ -267,20 +262,19 @@ BOOL CCardListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 		if (zDelta > 0)
 		{
 			//»Ÿ ¿ß∑Œ
-			m_nStartIdx--;
+			m_nStartIdx -= m_nCol * m_nRow;
 			if (m_nStartIdx < 0)
 				m_nStartIdx = 0;
-			else
-				ModifyCardData();
+			ModifyCardData();
 		}
 		else if (zDelta < 0)
 		{
 			//»Ÿ æ∆∑°∑Œ
-			m_nStartIdx++;
-			if (m_nStartIdx >= m_nMaxPage)
-				m_nStartIdx = m_nMaxPage;
-			else
-				ModifyCardData();
+			int temp = m_nStartIdx;
+			temp += m_nCol * m_nRow;
+			if (temp < m_nMaxIdx)
+				m_nStartIdx = temp;
+			ModifyCardData();
 		}
 	}
 	return CWnd::OnMouseWheel(nFlags, zDelta, pt);

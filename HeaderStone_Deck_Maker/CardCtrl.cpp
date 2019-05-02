@@ -7,7 +7,7 @@
 #define BOTTOM_OFFSET	-35
 #define RIGHT_OFFSET	-10
 CCardCtrl::CCardCtrl() :
-	m_pCard(nullptr), m_dRatio(1.0)
+	CCardNotifier(), m_pCard(nullptr), m_dRatio(1.0)
 {
 }
 

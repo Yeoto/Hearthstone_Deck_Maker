@@ -140,8 +140,9 @@ class CCardListMgr
 	~CCardListMgr();
 public:
 	static CCardListMgr* GetInstance();
-	const std::vector<CCard*>& GetCardList() { return vecCardList; };
-	CCard* GetTempCard() { return m_pTempCard; };
+	const std::vector<CCard*>& GetCardList() { return vecCardList; }
+	int GetCardListCnt() { return vecCardList.size(); }
+	CCard* GetTempCard() { return m_pTempCard; }
 
 	void AddCard(CCard* pCard);
 	void MakeTempCard();

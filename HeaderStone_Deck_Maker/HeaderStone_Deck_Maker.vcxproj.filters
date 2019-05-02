@@ -45,6 +45,9 @@
     <ClInclude Include="CardListCtrl.h">
       <Filter>Dialog\Control</Filter>
     </ClInclude>
+    <ClInclude Include="CardNotifier.h">
+      <Filter>Dialog\Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -66,6 +69,9 @@
       <Filter>Dialog\Control</Filter>
     </ClCompile>
     <ClCompile Include="CardListCtrl.cpp">
+      <Filter>Dialog\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="CardNotifier.cpp">
       <Filter>Dialog\Control</Filter>
     </ClCompile>
   </ItemGroup>

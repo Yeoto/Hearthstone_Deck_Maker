@@ -1,9 +1,10 @@
 #pragma once
 
 #include "CardData.h"
+#include "CardNotifier.h"
 
 class CCardCtrl :
-	public CWnd
+	public CWnd, CCardNotifier
 {
 public:
 	CCardCtrl();
