@@ -109,6 +109,17 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 	}
 }
 
+void CDeckListCtrl::ResetDeck()
+{
+	m_vecCards.clear();
+	m_mapCards.clear();
+	m_nStartIdx = 0;
+	m_nCardCnt = 0;
+	m_eDeckClass = E_CARDCLASS_NONE;
+	Invalidate();
+	UpdateWindow();
+}
+
 void CDeckListCtrl::RemakeCardListVector()
 {
 	m_vecCards = std::vector<std::pair<CCard*, int>>(m_mapCards.begin(), m_mapCards.end());
@@ -329,8 +340,14 @@ BOOL CDeckListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	{
 		if (m_nStartIdx < m_vecCards.size() - 1)
 		{
-			m_nStartIdx++;
-			bRedraw = TRUE;
+			CRect rtDeck;
+			GetClientRect(rtDeck);
+			int nLastItemBot = (m_vecCards.size() - m_nStartIdx) * ITEM_HEIGHT + ITEM_TOP_OFFSET;
+			if (nLastItemBot > rtDeck.bottom)
+			{
+				m_nStartIdx++;
+				bRedraw = TRUE;
+			}
 		}
 	}
 	else if (zDelta > 0)

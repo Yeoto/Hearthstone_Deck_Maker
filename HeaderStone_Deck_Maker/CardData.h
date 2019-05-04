@@ -201,6 +201,7 @@ public:
 
 public:
 	BOOL IsAgree(CCard* pCard);
+	CCardFilter & operator=(const CCardFilter &rhs);
 };
 
 class CCardListMgr

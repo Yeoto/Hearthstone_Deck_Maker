@@ -470,3 +470,40 @@ BOOL CCardFilter::IsAgree(CCard* pCard)
 
 	return bResult;
 }
+
+CCardFilter & CCardFilter::operator=(const CCardFilter &rhs)
+{
+	if (this == &rhs)      // µø¿œ ∞¥√º?
+		return *this;
+
+	bUseFilter = rhs.bUseFilter;
+	strSearch = rhs.strSearch;
+
+	bUseCardSet = rhs.bUseCardSet;
+	nCardSet = rhs.nCardSet;
+
+	bUseType = rhs.bUseType;
+	nType = rhs.nType;
+
+	bUseRace = rhs.bUseRace;
+	nRace = rhs.nRace;
+
+	bUseRarity = rhs.bUseRarity;
+	nRarity = rhs.nRarity;
+
+	bUseClass = rhs.bUseClass;
+	nClass = rhs.nClass;
+
+	bUseCost = rhs.bUseCost;
+	nFromCost = rhs.nFromCost;
+	nToCost = rhs.nToCost;
+
+	bUseAttack = rhs.bUseAttack;
+	nFromAttack = rhs.nFromAttack;
+	nToAttack = rhs.nToAttack;
+
+	bUseHealth = rhs.bUseHealth;
+	nFromHealth = rhs.nFromHealth;
+	nToHealth = rhs.nToHealth;
+	return *this;
+}

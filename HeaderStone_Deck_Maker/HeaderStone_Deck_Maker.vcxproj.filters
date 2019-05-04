@@ -57,6 +57,9 @@
     <ClInclude Include="DeckListCtrl.h">
       <Filter>Dialog\Control</Filter>
     </ClInclude>
+    <ClInclude Include="FilterDlg.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -85,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="DeckListCtrl.cpp">
       <Filter>Dialog\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="FilterDlg.cpp">
+      <Filter>Dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

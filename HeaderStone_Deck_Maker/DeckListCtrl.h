@@ -25,6 +25,7 @@ public:
 	void SetDeckClass(E_CARDCLASS eClass) { m_eDeckClass = eClass; }
 	E_CARDCLASS GetDeckClass() { return m_eDeckClass; }
 
+	void ResetDeck();
 private:
 	void RemakeCardListVector();
 	void DrawDeckType(CDC* pDC, CRect rtItem);
