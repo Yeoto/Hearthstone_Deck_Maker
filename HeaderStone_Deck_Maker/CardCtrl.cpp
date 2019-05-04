@@ -82,9 +82,8 @@ BOOL CCardCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-BOOL CCardCtrl::Create(const RECT & rect, CWnd * pParentWnd, BOOL bUseTemp)
+BOOL CCardCtrl::Create(const RECT & rect, CWnd * pParentWnd)
 {
-	m_bDrawCard = bUseTemp;
 	if (m_pCard == NULL || m_CardImage == NULL)
 	{
 		ASSERT(0);
@@ -102,7 +101,7 @@ BOOL CCardCtrl::Create(const RECT & rect, CWnd * pParentWnd, BOOL bUseTemp)
 
 void CCardCtrl::OnPaint()
 {
-	if (m_bDrawCard == TRUE)
+	if (m_bDrawCard == FALSE)
 		return CWnd::OnPaint();
 
 	CPaintDC dc(this);
@@ -120,7 +119,6 @@ void CCardCtrl::OnPaint()
 		long h = m_CardImage.GetHeight();
 		m_CardImage.Draw(dc.GetSafeHdc(), rect.left + (LEFT_OFFSET * m_dRatio), rect.top + (TOP_OFFSET * m_dRatio), w * m_dRatio, h * m_dRatio);
 	}
-	return CWnd::OnPaint();
 }
 
 void CCardCtrl::SetRatio(double dRatio)
@@ -133,6 +131,15 @@ void CCardCtrl::SetRatio(double dRatio)
 		long h = m_CardImage.GetHeight();
 		SetWindowPos(&wndTop, 0, 0, w*m_dRatio + ((RIGHT_OFFSET + LEFT_OFFSET) * m_dRatio), h*m_dRatio + ((BOTTOM_OFFSET + TOP_OFFSET) * m_dRatio), SWP_NOZORDER | SWP_NOMOVE);
 	}
+}
+
+void CCardCtrl::SetDrawCard(BOOL bDrawCard)
+{
+	m_bDrawCard = bDrawCard; 
+	const CWnd* temp = (bDrawCard == TRUE) ? &wndTopMost : &wndBottom;
+	ShowWindow(bDrawCard);
+	SetWindowPos(temp, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+	Invalidate();
 }
 
 void CCardCtrl::DrawCard(CDC* pDC)
@@ -157,6 +164,8 @@ BOOL CCardCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lParam)
 void CCardCtrl::OnRButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	SendNotify(NULL, (LPARAM)m_pCard);
+	if ( m_bDrawCard == TRUE )
+		SendNotify(NULL, (LPARAM)m_pCard);
+
 	__super::OnRButtonUp(nFlags, point);
 }

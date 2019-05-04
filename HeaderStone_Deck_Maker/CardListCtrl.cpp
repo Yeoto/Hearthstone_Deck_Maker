@@ -5,6 +5,27 @@
 
 CCardListCtrl::CCardListCtrl() : m_dRatio(1.0)
 {
+	WNDCLASS    wndcls;
+	HINSTANCE   hInst = AfxGetInstanceHandle();
+
+	if (!(::GetClassInfo(hInst, _T("CardListCtrl"), &wndcls)))
+	{
+		wndcls.style = CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW;
+		wndcls.lpfnWndProc = ::DefWindowProc;
+		wndcls.cbClsExtra = wndcls.cbWndExtra = 0;
+		wndcls.hInstance = hInst;
+		wndcls.hIcon = NULL;
+		wndcls.hCursor = AfxGetApp()->LoadStandardCursor(IDC_ARROW);
+		wndcls.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
+		wndcls.lpszMenuName = NULL;
+		wndcls.lpszClassName = _T("CardListCtrl");
+
+		if (!AfxRegisterClass(&wndcls))
+		{
+			AfxThrowResourceException();
+			return;
+		}
+	}
 }
 
 
@@ -22,23 +43,36 @@ END_MESSAGE_MAP()
 
 BOOL CCardListCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	//CalcColRowMaxPage();
-	return TRUE;
-}
-
-BOOL CCardListCtrl::Create(CRect rect, CWnd * pParent)
-{
-	CWnd::Create(NULL, NULL, WS_CHILD | WS_VISIBLE, rect, pParent, -1);
-
 	CCardCtrl* pCardCtrl = new CCardCtrl();
 
 	pCardCtrl->SetCardData(CCardListMgr::GetInstance()->GetTempCard());
-	pCardCtrl->Create(CRect(0, 0, 0, 0), this, TRUE);
+	pCardCtrl->Create(CRect(0, 0, 0, 0), this);
+	pCardCtrl->SetDrawCard(FALSE);
 
 	m_pTempCtrl = pCardCtrl;
 
 	CalcColRowMaxPage();
 	return TRUE;
+}
+
+BOOL CCardListCtrl::Create(CRect rect, CWnd * pParent)
+{
+	return CWnd::Create(NULL, NULL, WS_CHILD | WS_VISIBLE, rect, pParent, -1);
+
+	//CCardCtrl* pCardCtrl = new CCardCtrl();
+	//
+	//pCardCtrl->SetCardData(CCardListMgr::GetInstance()->GetTempCard());
+	//pCardCtrl->Create(CRect(0, 0, 0, 0), this);
+	//pCardCtrl->SetDrawCard(FALSE);
+	//
+	//m_pTempCtrl = pCardCtrl;
+	//
+	//CalcColRowMaxPage();
+}
+
+BOOL CCardListCtrl::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext /*= NULL*/)
+{
+	return Create(rect, pParentWnd);
 }
 
 void CCardListCtrl::CalcColRowMaxPage(BOOL bRepos)
@@ -59,7 +93,7 @@ void CCardListCtrl::CalcColRowMaxPage(BOOL bRepos)
 	if (m_nCol < 1) m_nCol = 1;
 	if (m_nRow < 1) m_nRow = 1;
 
-	int nAllCardCnt = CCardListMgr::GetInstance()->GetCardList().size();
+	int nAllCardCnt = CCardListMgr::GetInstance()->GetFilteredList().size();
 	m_nMaxIdx = nAllCardCnt;
 
 	if (m_vecCardCtrl.size() < m_nCol * m_nRow)
@@ -71,7 +105,8 @@ void CCardListCtrl::CalcColRowMaxPage(BOOL bRepos)
 			CCardCtrl* pCardCtrl = new CCardCtrl();
 
 			pCardCtrl->SetCardData(pCardListMgr->GetTempCard());
-			pCardCtrl->Create(CRect(0, 0, 0, 0), this, FALSE);
+			pCardCtrl->Create(CRect(0, 0, 0, 0), this);
+			pCardCtrl->SetDrawCard(FALSE);
 			pCardCtrl->SetRatio(m_dRatio);
 			m_vecCardCtrl.push_back(pCardCtrl);
 		}
@@ -115,18 +150,38 @@ void CCardListCtrl::ReposCards()
 void CCardListCtrl::ModifyCardData()
 {
 	ASSERT(m_nCol * m_nRow == m_vecCardCtrl.size());
-	std::vector<CCard*> vecCardList = CCardListMgr::GetInstance()->GetCardList();
+	std::vector<CCard*> vecCardList = CCardListMgr::GetInstance()->GetFilteredList();
+	std::sort(vecCardList.begin(), vecCardList.end(), 
+		[](const CCard* pCard1, const CCard* pCard2)
+	{
+		if (pCard1->nCost < pCard2->nCost)
+		{
+			return TRUE;
+		}
+		else if (pCard1->nCost == pCard2->nCost)
+		{
+			if (pCard1->strName < pCard2->strName)
+				return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+
+		return FALSE;
+	});
+
 	for (int i = 0; i < m_nCol * m_nRow; i++)
 	{
 		CCardCtrl* pWnd = (CCardCtrl*)m_vecCardCtrl[i];
 		int nCardIdx = m_nStartIdx + i;
 		if (nCardIdx >= vecCardList.size())
 		{
-			pWnd->SetDrawCard(TRUE);
+			pWnd->SetDrawCard(FALSE);
 		}
 		else
 		{
-			pWnd->SetDrawCard(FALSE);
+			pWnd->SetDrawCard(TRUE);
 			pWnd->SetCardData(vecCardList[nCardIdx]);
 		}
 	}
@@ -198,7 +253,7 @@ void CCardListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	CRect rtRightBtn;
 	rtRightBtn.top = rtListCtrl.top;
 	rtRightBtn.bottom = rtListCtrl.bottom;
-	rtRightBtn.left = rtListCtrl.left - SIDEBTN_OFFSET;
+	rtRightBtn.left = rtListCtrl.right - SIDEBTN_OFFSET;
 	rtRightBtn.right = rtListCtrl.right;
 
 	if (rtLeftBtn.PtInRect(point))
@@ -259,23 +314,32 @@ BOOL CCardListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	}
 	else
 	{
+		BOOL bRedraw = TRUE;
 		if (zDelta > 0)
 		{
 			//»Ÿ ¿ß∑Œ
 			m_nStartIdx -= m_nCol * m_nRow;
 			if (m_nStartIdx < 0)
+			{
 				m_nStartIdx = 0;
-			ModifyCardData();
+				bRedraw = FALSE;
+			}
 		}
 		else if (zDelta < 0)
 		{
 			//»Ÿ æ∆∑°∑Œ
 			int temp = m_nStartIdx;
 			temp += m_nCol * m_nRow;
+			bRedraw = FALSE;
 			if (temp < m_nMaxIdx)
+			{
 				m_nStartIdx = temp;
-			ModifyCardData();
+				bRedraw = TRUE;
+			}
 		}
+
+		if (bRedraw)
+			ModifyCardData();
 	}
 	return CWnd::OnMouseWheel(nFlags, zDelta, pt);
 }

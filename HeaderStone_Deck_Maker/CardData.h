@@ -9,7 +9,7 @@ enum E_CARDCLASS
 	E_CARDCLASS_NONE	= 0x001,	// 중립카드
 	E_CARDCLASS_WARRIOR = 0x002,	// 전사카드
 	E_CARDCLASS_SHAMAN	= 0x004,	// 주술사카드
-	E_CARDCLASS_THIEF	= 0x008,	// 도적카드
+	E_CARDCLASS_ROGUE	= 0x008,	// 도적카드
 	E_CARDCLASS_PALADIN = 0x010,	// 성기사카드
 	E_CARDCLASS_HUNTER	= 0x020,	// 사냥꾼카드
 	E_CARDCLASS_DRUID	= 0x040,	// 드루이드카드
@@ -39,6 +39,7 @@ enum E_CARDSET
 	E_CARDSET_THE_BOOMSDAY_PROJECT			= 0x08000,	// 박사 붐의 폭심만만 프로젝트
 	E_CARDSET_RASTAKHAN_S_RUMBLE			= 0x10000,	// 라스타칸의 대난투
 	E_CARDSET_RISE_OF_SHADOWS				= 0x20000,	// 어둠의 반격
+	E_CARDSET_REGULAR						= 0x3C003,
 	E_CARDSET_ALL							= 0x3FFFF
 };
 
@@ -66,15 +67,16 @@ enum E_CARDRARITY
 
 enum E_CARDRACE
 {
-	E_CARDRACE_NONE		= 0x001,	// 무종족
-	E_CARDRACE_DEMON	= 0x002,	// 악마
-	E_CARDRACE_DRAGON	= 0x004,	// 용
-	E_CARDRACE_MECH		= 0x008,	// 기계
-	E_CARDRACE_MURLOC	= 0x010,	// 멀록
-	E_CARDRACE_BEAST	= 0x020,	// 야수
-	E_CARDRACE_PIRATE	= 0x040,	// 해적
-	E_CARDRACE_TOTEM	= 0x080,	// 토템
-	E_CARDRACE_ALL		= 0x0FF
+	E_CARDRACE_NONE			= 0x001,	// 무종족
+	E_CARDRACE_DEMON		= 0x002,	// 악마
+	E_CARDRACE_DRAGON		= 0x004,	// 용
+	E_CARDRACE_MECH			= 0x008,	// 기계
+	E_CARDRACE_MURLOC		= 0x010,	// 멀록
+	E_CARDRACE_BEAST		= 0x020,	// 야수
+	E_CARDRACE_PIRATE		= 0x040,	// 해적
+	E_CARDRACE_TOTEM		= 0x080,	// 토템
+	E_CARDRACE_ELEMENTAL	= 0x100,	// 정령
+	E_CARDRACE_ALL			= 0x1FF
 };
 
 class CCard
@@ -103,23 +105,23 @@ public:
 	void Init();
 	void Trace();
 public:
-	BOOL ImportCardData(std::string name, std::string value);
-	BOOL ImportCardID(std::string value);
-	BOOL ImportDbfID(std::string value);
-	BOOL ImportName(std::string value);
-	BOOL ImportCardSet(std::string value);
-	BOOL ImportCardType(std::string value);
-	BOOL ImportCardRace(std::string value);
-	BOOL ImportCardRarity(std::string value);
-	BOOL ImportCardClass(std::string value);
-	BOOL ImportCost(std::string value);
-	BOOL ImportHealth(std::string value);
-	BOOL ImportAttack(std::string value);
-	BOOL ImportText(std::string value);
-	BOOL ImportFlavor(std::string value);
-	BOOL ImportArtist(std::string value);
-	BOOL ImportImgURL(std::string value);
-	BOOL ImportImgGoldURL(std::string value);
+	BOOL ImportCardData(std::wstring name, std::wstring value);
+	BOOL ImportCardID(std::wstring value);
+	BOOL ImportDbfID(std::wstring value);
+	BOOL ImportName(std::wstring value);
+	BOOL ImportCardSet(std::wstring value);
+	BOOL ImportCardType(std::wstring value);
+	BOOL ImportCardRace(std::wstring value);
+	BOOL ImportCardRarity(std::wstring value);
+	BOOL ImportCardClass(std::wstring value);
+	BOOL ImportCost(std::wstring value);
+	BOOL ImportHealth(std::wstring value);
+	BOOL ImportAttack(std::wstring value);
+	BOOL ImportText(std::wstring value);
+	BOOL ImportFlavor(std::wstring value);
+	BOOL ImportArtist(std::wstring value);
+	BOOL ImportImgURL(std::wstring value);
+	BOOL ImportImgGoldURL(std::wstring value);
 
 	//예외. 혼자 List로 나옴
 	BOOL ImportMechanics(std::vector<std::string> vecValue);
@@ -127,11 +129,78 @@ public:
 	void DownloadImg(std::string filePath);
 public:
 	// String to Enum Data
-	static E_CARDSET	GetCardSetByStr(std::string str);
-	static E_CARDTYPE	GetCardTypeByStr(std::string str);
-	static E_CARDRACE	GetCardRaceByStr(std::string str);
-	static E_CARDRARITY GetCardRarityByStr(std::string str);
-	static E_CARDCLASS	GetCardClassByStr(std::string str);
+	static E_CARDSET	GetCardSetByStr(std::wstring str);
+	static E_CARDTYPE	GetCardTypeByStr(std::wstring str);
+	static E_CARDRACE	GetCardRaceByStr(std::wstring str);
+	static E_CARDRARITY GetCardRarityByStr(std::wstring str);
+	static E_CARDCLASS	GetCardClassByStr(std::wstring str);
+};
+
+class CCardFilter
+{
+public:
+	BOOL bUseFilter;
+	std::wstring strSearch;
+
+	BOOL bUseCardSet;
+	int nCardSet;
+
+	BOOL bUseType;
+	int nType;
+
+	BOOL bUseRace;
+	int nRace;
+
+	BOOL bUseRarity;
+	int nRarity;
+
+	BOOL bUseClass;
+	int nClass;
+
+	BOOL bUseCost;
+	int nFromCost, nToCost;
+
+	BOOL bUseAttack;
+	int nFromAttack, nToAttack;
+
+	BOOL bUseHealth;
+	int nFromHealth, nToHealth;
+
+	CCardFilter()
+	{
+		bUseFilter = TRUE;
+		strSearch = _T("");
+			
+		bUseCardSet = TRUE;
+		nCardSet = E_CARDSET_REGULAR;
+
+		bUseType = FALSE;
+		nType = 0;
+
+		bUseRace = FALSE;
+		nRace = 0;
+
+		bUseRarity = FALSE;
+		nRarity = E_CARDRARITY_FREE;
+
+		bUseClass = TRUE;
+		nClass = E_CARDCLASS_DRUID;
+
+		bUseCost = FALSE;
+		nFromCost = 0;
+		nToCost = 0;
+
+		bUseAttack = FALSE;
+		nFromAttack = 0;
+		nToAttack = 0;
+
+		bUseHealth = FALSE;
+		nFromHealth = 0;
+		nToHealth = 0;
+	};
+
+public:
+	BOOL IsAgree(CCard* pCard);
 };
 
 class CCardListMgr
@@ -140,10 +209,14 @@ class CCardListMgr
 	~CCardListMgr();
 public:
 	static CCardListMgr* GetInstance();
-	const std::vector<CCard*>& GetCardList() { return vecCardList; }
-	int GetCardListCnt() { return vecCardList.size(); }
+	const std::vector<CCard*>& GetCardList() { return m_vecCardList; }
+	std::vector<CCard*> GetFilteredList();
+	std::vector<CCard*> GetFilteredList(std::vector<CCard*> vecCardList);
+	int GetCardListCnt() { return m_vecCardList.size(); }
 	CCard* GetTempCard() { return m_pTempCard; }
+	CCardFilter* GetCardFilter() { return &m_Filter;  }
 
+	BOOL CheckCardData(CCard* pCard);
 	void AddCard(CCard* pCard);
 	void MakeTempCard();
 	void TraceAll();
@@ -151,6 +224,7 @@ public:
 private:
 	static CCardListMgr* m_pInstance;
 	static void destroy() { delete m_pInstance; }
-	std::vector<CCard*> vecCardList;
+	std::vector<CCard*> m_vecCardList;
 	CCard* m_pTempCard;
+	CCardFilter m_Filter;
 };

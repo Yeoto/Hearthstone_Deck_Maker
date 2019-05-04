@@ -12,6 +12,7 @@ public:
 	CCardListCtrl();
 	virtual ~CCardListCtrl();
 
+	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
 	BOOL Create(CRect rect, CWnd* pParent);
 
 	DECLARE_MESSAGE_MAP()
@@ -22,7 +23,7 @@ public:
 	void CalcColRowMaxPage(BOOL bRepos = TRUE);
 	void ReposCards();
 	void ModifyCardData();
-
+	void SetStartIndex(int nIdx) { m_nStartIdx = nIdx; }
 private:
 	void InvaliDateAll();
 private:

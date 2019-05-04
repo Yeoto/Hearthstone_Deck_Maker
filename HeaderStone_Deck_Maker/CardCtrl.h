@@ -17,11 +17,11 @@ public:
 	void SetCardData(CCard* pCard);
 	
 	virtual BOOL OnCreate(LPCREATESTRUCT lpCreateStruct);
-	BOOL Create(const RECT& rect, CWnd* pParentWnd, BOOL bUseTemp = FALSE);
+	BOOL Create(const RECT& rect, CWnd* pParentWnd);
 	virtual afx_msg void OnPaint();
 	void SetRatio(double dRatio);
 
-	void SetDrawCard(BOOL bDrawCard) { m_bDrawCard = bDrawCard; Invalidate(); }
+	void SetDrawCard(BOOL bDrawCard);
 	void DrawCard(CDC* pDC);
 
 	virtual BOOL ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lParam);
