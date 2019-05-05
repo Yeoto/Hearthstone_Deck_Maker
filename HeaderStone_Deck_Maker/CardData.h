@@ -26,7 +26,7 @@ enum E_CARDSET
 	E_CARDSET_HALL_OF_FAME					= 0x00004,	// 명예의 전당
 	E_CARDSET_NAXXRAMAS						= 0x00008,	// 낙스라마스
 	E_CARDSET_GOBLIN_VS_GNOMES				= 0x00010,	// 고블린 대 노움
-	E_CARDSET_BLAKCROCK_MOUNTAIN			= 0x00020,	// 검은 바위 산
+	E_CARDSET_BLACKCROCK_MOUNTAIN			= 0x00020,	// 검은 바위 산
 	E_CARDSET_THE_GRAND_TOURNAMENT			= 0x00040,	// 대 마상시합
 	E_CARDSET_THE_ELAGUE_OF_EXPLORERS		= 0x00080,	// 탐험가 연맹
 	E_CARDSET_WHISPERS_OF_THE_OLD_GODS		= 0x00100,	// 고대신의 속삭임
@@ -98,8 +98,9 @@ public:
 	std::wstring strArtist;
 	std::wstring urlImg;
 	std::wstring urlImgGold;
-	std::string imgfilePath;
+	//std::string imgfilePath;
 	std::vector<std::wstring> vecMechanics;
+	CImage m_CardImage;
 
 	CCard() { Init(); }
 	void Init();
@@ -139,7 +140,7 @@ public:
 class CCardFilter
 {
 public:
-	BOOL bUseFilter;
+	BOOL bUseText;
 	std::wstring strSearch;
 
 	BOOL bUseCardSet;
@@ -168,7 +169,7 @@ public:
 
 	CCardFilter()
 	{
-		bUseFilter = TRUE;
+		bUseText = FALSE;
 		strSearch = _T("");
 			
 		bUseCardSet = TRUE;

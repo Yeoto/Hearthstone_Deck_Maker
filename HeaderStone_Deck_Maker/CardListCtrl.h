@@ -4,9 +4,10 @@
 #include <vector>
 #include "CardCtrl.h"
 #include "CardData.h"
+#include "CardNotifier.h"
 
 class CCardListCtrl :
-	public CWnd
+	public CWnd, public CCardNotifier
 {
 public:
 	CCardListCtrl();
@@ -19,13 +20,14 @@ public:
 	afx_msg BOOL OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
 
+	virtual BOOL ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lParam);
 public:
 	void CalcColRowMaxPage(BOOL bRepos = TRUE);
 	void ReposCards();
 	void ModifyCardData();
 	void SetStartIndex(int nIdx) { m_nStartIdx = nIdx; }
 private:
-	void InvaliDateAll();
+	void InvalidateAll();
 private:
 	CWnd* m_pTempCtrl;
 	std::vector<CWnd*> m_vecCardCtrl;

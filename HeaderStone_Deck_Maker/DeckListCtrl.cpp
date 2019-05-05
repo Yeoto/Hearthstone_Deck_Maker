@@ -84,10 +84,14 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 		if (m_nCardCnt == 30)
 			return FALSE;
 
+		if (pCard->eClass != E_CARDCLASS_NONE && m_eDeckClass != E_CARDCLASS_NONE && m_eDeckClass != pCard->eClass)
+			return FALSE;
+
 		if ((itrMap = m_mapCards.find(pCard)) == m_mapCards.end())
 		{
 			m_mapCards[pCard] = 1;
 			m_nCardCnt++;
+			SendNotify(1, (LPARAM)pCard);
 			RemakeCardListVector();
 		}
 		else
@@ -98,6 +102,7 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 				{
 					m_mapCards[pCard] = 2;
 					m_nCardCnt++;
+					SendNotify(1, (LPARAM)pCard);
 					RemakeCardListVector();
 				}
 			}
@@ -319,7 +324,7 @@ void CDeckListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 	std::pair<CCard*, int> pairCard = m_vecCards[nItemIdx];
 	m_mapCards[pairCard.first]--;
 	m_nCardCnt--;
-	SendNotify(NULL, (LPARAM)pairCard.first);
+	SendNotify(0, (LPARAM)pairCard.first);
 
 	if (m_mapCards[pairCard.first] == 0)
 		m_mapCards.erase(pairCard.first);

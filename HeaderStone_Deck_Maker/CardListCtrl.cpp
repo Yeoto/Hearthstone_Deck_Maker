@@ -3,7 +3,7 @@
 
 #define SIDEBTN_OFFSET 50
 
-CCardListCtrl::CCardListCtrl() : m_dRatio(1.0)
+CCardListCtrl::CCardListCtrl() : CCardNotifier(NTM_CARDLISTCTRL), m_dRatio(1.0)
 {
 	WNDCLASS    wndcls;
 	HINSTANCE   hInst = AfxGetInstanceHandle();
@@ -185,10 +185,10 @@ void CCardListCtrl::ModifyCardData()
 			pWnd->SetCardData(vecCardList[nCardIdx]);
 		}
 	}
-	InvaliDateAll();
+	InvalidateAll();
 }
 
-void CCardListCtrl::InvaliDateAll()
+void CCardListCtrl::InvalidateAll()
 {
 	for (CWnd* pWnd : m_vecCardCtrl)
 	{
@@ -219,6 +219,32 @@ void CCardListCtrl::OnPaint()
 #endif
 }
 
+
+BOOL CCardListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lParam)
+{
+	switch (eSender)
+	{
+	case NTM_MAINDLG:
+		break;
+	case NTM_FILTERDLG:
+		m_nStartIdx = 0;
+		CalcColRowMaxPage(TRUE);
+		//ModifyCardData();
+		InvalidateAll();
+		break;
+	case NTM_CARDCTRL:
+		break;
+	case NTM_CARDLISTCTRL:
+		break;
+	case NTM_DECKLISTCTRL:
+		break;
+	case NTM_CARDMAX:
+		break;
+	default:
+		break;
+	}
+	return FALSE;
+}
 
 void CCardListCtrl::OnDestroy()
 {

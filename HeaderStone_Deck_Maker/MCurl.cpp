@@ -67,19 +67,23 @@ CString MCurl::get(MURL UrlData)
 	return CString(buffer.c_str());
 }
 
-std::string MCurl::DownloadImg(std::string filePath, std::string urlImg)
+std::wstring MCurl::DownloadImg(std::string filePath, std::string urlImg)
 {
 	CURL* curl;
 	FILE* fp;
 	CURLcode res;
 
-	std::string filename =urlImg.substr(urlImg.rfind("/") +1, urlImg.length());
+	std::wstring strResult;
+	std::string filename = urlImg.substr(urlImg.rfind("/") + 1, urlImg.length());
 	filePath += filename;
 
 	struct stat buffer;
 	// 같은 이름 파일 있으면 스킵함
-	if ( stat(filePath.c_str(), &buffer) == 0 )
-		return filePath;
+	if (stat(filePath.c_str(), &buffer) == 0)
+	{
+		strResult.assign(filePath.begin(), filePath.end());
+		return strResult;
+	}
 
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	curl = curl_easy_init();
@@ -97,7 +101,9 @@ std::string MCurl::DownloadImg(std::string filePath, std::string urlImg)
 		fclose(fp);
 	}
 	curl_global_cleanup();
-	return filePath;
+
+	strResult.assign(filePath.begin(), filePath.end());
+	return strResult;
 }
 
 void MCurl::put(MURL UrlData)

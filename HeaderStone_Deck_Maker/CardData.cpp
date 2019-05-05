@@ -20,7 +20,7 @@ E_CARDSET CCard::GetCardSetByStr(std::wstring str)
 	else if (str.compare(_T("goblins vs gnomes")) == 0)
 		return E_CARDSET_GOBLIN_VS_GNOMES;
 	else if (str.compare(_T("blackrock mountain")) == 0)
-		return E_CARDSET_BLAKCROCK_MOUNTAIN;
+		return E_CARDSET_BLACKCROCK_MOUNTAIN;
 	else if (str.compare(_T("the grand tournament")) == 0)
 		return E_CARDSET_THE_GRAND_TOURNAMENT;
 	else if (str.compare(_T("the league of explorers")) == 0)
@@ -338,7 +338,15 @@ void CCard::DownloadImg(std::string imgPath)
 	MCurl* pCurl = MCurl::GetInstance();
 	std::string temp;
 	temp.assign(urlImg.begin(), urlImg.end());
-	imgfilePath = pCurl->DownloadImg(imgPath, temp);
+	CString imgfilePath = pCurl->DownloadImg(imgPath, temp).c_str();
+
+	HRESULT hResult = m_CardImage.Load(imgfilePath);
+	
+	if (FAILED(hResult)) {
+		CString strTmp = _T("ERROR: Failed to load :");
+		strTmp += imgfilePath;
+		return;
+	}
 }
 
 CCardListMgr* CCardListMgr::m_pInstance;
@@ -374,9 +382,6 @@ CCardListMgr * CCardListMgr::GetInstance()
 
 std::vector<CCard*> CCardListMgr::GetFilteredList(std::vector<CCard*> vecCardList)
 {
-	if (m_Filter.bUseFilter == FALSE)
-		return vecCardList;
-
 	std::vector<CCard*> vecFiltered;
 	for (auto itr : vecCardList)
 	{
@@ -418,7 +423,7 @@ void CCardListMgr::MakeTempCard()
 	m_pTempCard = new CCard();
 	m_pTempCard->strCardID = _T("temp");
 	m_pTempCard->urlImg = _T("/temp.png");
-	m_pTempCard->imgfilePath = imgPath;
+	//m_pTempCard->imgfilePath = imgPath;
 	m_pTempCard->DownloadImg(imgPath);
 }
 
@@ -446,9 +451,6 @@ void CCardListMgr::DownloadAllImg()
 
 BOOL CCardFilter::IsAgree(CCard* pCard)
 {
-	if (bUseFilter == FALSE)
-		return TRUE;
-
 	BOOL bResult = TRUE;
 	if (bUseCost)
 		bResult &= nFromCost <= pCard->nCost && pCard->nCost <= nToCost;
@@ -457,7 +459,7 @@ BOOL CCardFilter::IsAgree(CCard* pCard)
 	if (bUseHealth)
 		bResult &= nFromHealth <= pCard->nHealth && pCard->nHealth <= nToHealth;
 
-	if (bUseCardSet)
+	if ( bUseCardSet )
 		bResult &= (pCard->eCardSet & nCardSet) > 0;
 	if (bUseClass)
 		bResult &= (pCard->eClass & nClass) > 0;
@@ -468,6 +470,20 @@ BOOL CCardFilter::IsAgree(CCard* pCard)
 	if (bUseType)
 		bResult &= (pCard->eType & nType) > 0;
 
+	if (bUseText)
+	{
+		BOOL bTemp = FALSE;
+		std::size_t posName = pCard->strName.find(strSearch);
+		if (posName != std::string::npos)
+			bTemp = TRUE;
+
+		std::size_t posText = pCard->strText.find(strSearch);
+		if (posText != std::string::npos)
+			bTemp = TRUE;
+
+		bResult &= bTemp;
+	}
+
 	return bResult;
 }
 
@@ -476,22 +492,21 @@ CCardFilter & CCardFilter::operator=(const CCardFilter &rhs)
 	if (this == &rhs)      // µø¿œ ∞¥√º?
 		return *this;
 
-	bUseFilter = rhs.bUseFilter;
-	strSearch = rhs.strSearch;
-
+	bUseText = rhs.bUseText;
 	bUseCardSet = rhs.bUseCardSet;
+	bUseType =		rhs.bUseType;
+	bUseRace =		rhs.bUseRace;
+	bUseRarity =	rhs.bUseRarity;
+	bUseClass =		rhs.bUseClass;
+	bUseCost =		rhs.bUseCost;
+	bUseAttack =	rhs.bUseAttack;
+	bUseHealth =	rhs.bUseHealth;
+
+	strSearch = rhs.strSearch;
 	nCardSet = rhs.nCardSet;
-
-	bUseType = rhs.bUseType;
 	nType = rhs.nType;
-
-	bUseRace = rhs.bUseRace;
 	nRace = rhs.nRace;
-
-	bUseRarity = rhs.bUseRarity;
 	nRarity = rhs.nRarity;
-
-	bUseClass = rhs.bUseClass;
 	nClass = rhs.nClass;
 
 	bUseCost = rhs.bUseCost;

@@ -30,7 +30,7 @@ private:
 	BOOL m_bDrawCard;
 	double m_dRatio;
 	CCard* m_pCard;
-	CImage m_CardImage;
+	CImage* m_pCardImage;
 public:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 };
