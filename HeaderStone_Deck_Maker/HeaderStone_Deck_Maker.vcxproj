@@ -197,6 +197,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Base64.h" />
     <ClInclude Include="CardCtrl.h" />
     <ClInclude Include="CardListCtrl.h" />
     <ClInclude Include="CardNotifier.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="FilterDlg.h" />
     <ClInclude Include="HeaderStone_Deck_Maker.h" />
     <ClInclude Include="HeaderStone_Deck_MakerDlg.h" />
+    <ClInclude Include="ProgressDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -212,6 +214,7 @@
     <ClInclude Include="NotifyMsg.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Base64.cpp" />
     <ClCompile Include="CardCtrl.cpp" />
     <ClCompile Include="CardListCtrl.cpp" />
     <ClCompile Include="CardNotifier.cpp" />
@@ -219,6 +222,7 @@
     <ClCompile Include="FilterDlg.cpp" />
     <ClCompile Include="HeaderStone_Deck_Maker.cpp" />
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp" />
+    <ClCompile Include="ProgressDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

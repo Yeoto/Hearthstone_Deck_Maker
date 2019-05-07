@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "CardData.h"
+#include "ProgressDlg.h"
 
 #include <direct.h>
 
+#include "Base64.h"
 #include "MCurl.h"
 
 E_CARDSET CCard::GetCardSetByStr(std::wstring str)
@@ -398,9 +400,6 @@ std::vector<CCard*> CCardListMgr::GetFilteredList()
 
 BOOL CCardListMgr::CheckCardData(CCard* pCard)
 {
-	if (pCard->nCost < 0)
-		return FALSE;
-
 	return TRUE;
 }
 
@@ -433,7 +432,7 @@ void CCardListMgr::TraceAll()
 		pCard->Trace();
 }
 
-void CCardListMgr::DownloadAllImg()
+void CCardListMgr::DownloadAllImg(CProgressDlg* pProgress)
 {
 	TCHAR path[_MAX_PATH] = _T("");
 	GetModuleFileName(NULL, path, _MAX_PATH);
@@ -445,8 +444,78 @@ void CCardListMgr::DownloadAllImg()
 	std::string imgPath = UpperPath + "\\Image\\";
 	_mkdir(imgPath.c_str());
 
+	if ( pProgress != NULL)
+	{
+		pProgress->SetLoadingString(_T("이미지 불러오는 중..."));
+		pProgress->SetProgressMax(m_vecCardList.size());
+	}
 	for (CCard* pCard : m_vecCardList)
+	{
 		pCard->DownloadImg(imgPath);
+
+		if ( pProgress != NULL)
+			pProgress->IndexPlusOne();
+	}
+}
+
+void CCardListMgr::DeckCode2CardList(std::string deckCode)
+{
+	CCardEncoder* pBase64 = CCardEncoder::GetInstance();
+	int pTemp[500] = {};
+	int nTemp = 0;
+	pBase64->Decoding(deckCode.c_str(), pTemp, &nTemp);
+	std::vector<int> vecResult(pTemp, pTemp + nTemp);
+
+	int nWild = vecResult[2];
+	int nHero = vecResult[3];
+	ASSERT(nHero == 1);
+
+	E_CARDCLASS nClass = E_CARDCLASS_NONE;
+	int nStartIdx = 4;
+	int nCard = 0;
+
+	for (nCard = 0; nCard < nHero;)
+	{
+		int nData = 0;
+		int nTemp = 0;
+		while (((char)vecResult[nStartIdx] & 0x8000) > 0)
+		{
+			nData |= vecResult[nStartIdx] << nTemp * 7;
+			nTemp++;
+			nStartIdx++;
+		}
+		nData |= vecResult[nStartIdx++] << nTemp * 7;
+
+		auto itr = std::find_if(m_vecCardList.begin(), m_vecCardList.end(), [&nData](CCard* pCard) { return pCard->ndbfID == nData;  });
+		nClass = (*itr)->eClass;
+		nCard++;
+	}
+
+	int nSingleCard = vecResult[nStartIdx++];
+	std::vector<CCard*> pSingleCard;
+	for (nCard = 0; nCard < nSingleCard;)
+	{
+		int nData = 0;
+		int nTemp = 0;
+		while (((char)vecResult[nStartIdx] & 0x8000) > 0)
+		{
+			nData |= vecResult[nStartIdx] << nTemp * 7;
+			nTemp++;
+			nStartIdx++;
+		}
+		nData |= vecResult[nStartIdx++] << nTemp * 7;
+
+		auto itr = std::find_if(m_vecCardList.begin(), m_vecCardList.end(), [&nData](CCard* pCard) { return pCard->ndbfID == nData;  });
+		pSingleCard.push_back(*itr);
+		nCard++;
+	}
+
+	pSingleCard.size();
+}
+
+void CCardListMgr::CardList2DeckCode(CString& deckCode)
+{
+
 }
 
 BOOL CCardFilter::IsAgree(CCard* pCard)

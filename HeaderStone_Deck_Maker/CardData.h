@@ -79,6 +79,9 @@ enum E_CARDRACE
 	E_CARDRACE_ALL			= 0x1FF
 };
 
+class CProgressDlg;
+class CCardEncoder;
+
 class CCard
 {
 public:
@@ -222,7 +225,10 @@ public:
 	void AddCard(CCard* pCard);
 	void MakeTempCard();
 	void TraceAll();
-	void DownloadAllImg();
+	void DownloadAllImg(CProgressDlg* pProgress = NULL);
+
+	void DeckCode2CardList(std::string deckCode);
+	void CardList2DeckCode(CString& deckCode);
 private:
 	static CCardListMgr* m_pInstance;
 	static void destroy() { delete m_pInstance; }
