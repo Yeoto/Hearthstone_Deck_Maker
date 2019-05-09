@@ -58,16 +58,6 @@ BOOL CCardListCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 BOOL CCardListCtrl::Create(CRect rect, CWnd * pParent)
 {
 	return CWnd::Create(NULL, NULL, WS_CHILD | WS_VISIBLE, rect, pParent, -1);
-
-	//CCardCtrl* pCardCtrl = new CCardCtrl();
-	//
-	//pCardCtrl->SetCardData(CCardListMgr::GetInstance()->GetTempCard());
-	//pCardCtrl->Create(CRect(0, 0, 0, 0), this);
-	//pCardCtrl->SetDrawCard(FALSE);
-	//
-	//m_pTempCtrl = pCardCtrl;
-	//
-	//CalcColRowMaxPage();
 }
 
 BOOL CCardListCtrl::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext /*= NULL*/)
@@ -224,24 +214,14 @@ BOOL CCardListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 {
 	switch (eSender)
 	{
-	case NTM_MAINDLG:
-		break;
 	case NTM_FILTERDLG:
 		m_nStartIdx = 0;
 		CalcColRowMaxPage(TRUE);
 		//ModifyCardData();
 		InvalidateAll();
-		break;
-	case NTM_CARDCTRL:
-		break;
-	case NTM_CARDLISTCTRL:
-		break;
-	case NTM_DECKLISTCTRL:
-		break;
-	case NTM_CARDMAX:
-		break;
+		return TRUE;
 	default:
-		break;
+		return FALSE;
 	}
 	return FALSE;
 }

@@ -26,6 +26,9 @@ public:
 	E_CARDCLASS GetDeckClass() { return m_eDeckClass; }
 
 	void ResetDeck();
+	void SetDeck(std::map<CCard*, int> mapDeckList);
+	void GetDeck(std::map<CCard*, int>& mapDeckList) { mapDeckList = m_mapCards; };
+
 private:
 	void RemakeCardListVector();
 	void DrawDeckType(CDC* pDC, CRect rtItem);

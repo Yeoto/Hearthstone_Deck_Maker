@@ -1,11 +1,14 @@
 #pragma once
+
+#include <String>
+#include <vector>
 class CCardEncoder
 {
 	CCardEncoder();
 	~CCardEncoder();
 
 public:
-	int Encoding(char *src, int src_size, char **result);
+	int Encoding(int *src, int src_size, std::string& result);
 	void Decoding(const char *src, int *result, int *length);
 
 public:

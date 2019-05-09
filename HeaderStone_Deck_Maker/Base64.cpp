@@ -3,23 +3,6 @@
 
 #define LITTLE_ENDIAN
 
-typedef union {
-	struct {
-#ifdef LITTLE_ENDIAN
-		unsigned char c1, c2, c3;
-#else
-		unsigned char c3, c2, c1;
-#endif
-	};
-	struct {
-#ifdef LITTLE_ENDIAN
-		unsigned int e1 : 6, e2 : 6, e3 : 6, e4 : 6;
-#else
-		unsigned int e4 : 6, e3 : 6, e2 : 6, e1 : 6;
-#endif
-	};
-} BF;
-
 const char CCardEncoder::MimeBase64[] = {
 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -59,31 +42,31 @@ CCardEncoder::~CCardEncoder()
 {
 }
 
-int CCardEncoder::Encoding(char *src, int src_size, char **result)
+int CCardEncoder::Encoding(int *src, int src_size, std::string& result)
 {
 	int i, j = 0;
-	BF temp;
 
-	int size = (4 * (src_size / 3)) + (src_size % 3 ? 4 : 0) + 1;
-	(*result) = new char[size];
+	int size = (4 * (src_size / 3)) + (src_size % 3 ? 4 : 0);
 
+	std::vector<char> vecChar;
 	for (i = 0; i < src_size; i = i + 3, j = j + 4)
 	{
-		temp.c3 = src[i];
-		if ((i + 1) > src_size) temp.c2 = 0;
-		else temp.c2 = src[i + 1];
-		if ((i + 2) > src_size) temp.c1 = 0;
-		else temp.c1 = src[i + 2];
+		INT64 temp = 0;
+		if (vecChar.size() != j)
+			ASSERT(0);
+		temp |= (src[i] << 16) & 0xFF0000;
+		if ((i + 1) > src_size) temp &= ~0xFF00;
+		else temp |= (src[i + 1] << 8) & 0xFF00;
+		if ((i + 2) > src_size) temp &= ~0xFF;
+		else temp |= (src[i + 2]) & 0xFF; 
 
-		(*result)[j] = MimeBase64[temp.e4];
-		(*result)[j + 1] = MimeBase64[temp.e3];
-		(*result)[j + 2] = MimeBase64[temp.e2];
-		(*result)[j + 3] = MimeBase64[temp.e1];
+		for ( int Idx = 0 ; Idx < 4 && i + Idx <= src_size ; Idx++ )
+			vecChar.push_back(MimeBase64[(temp & (0xFC0000 >> (6 * Idx))) >> (6 * (3-Idx))]);
 
-		if ((i + 2) > src_size) (*result)[j + 2] = '=';
-		if ((i + 3) > src_size) (*result)[j + 3] = '=';
+		if ((i + 2) > src_size) vecChar.push_back('=');
+		if ((i + 3) > src_size) vecChar.push_back('=');
 	}
-	(*result)[size - 1] = '\0';
+	result = std::string(vecChar.begin(), vecChar.end());
 	return size;
 }
 

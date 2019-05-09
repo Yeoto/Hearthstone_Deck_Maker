@@ -93,6 +93,7 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 			m_nCardCnt++;
 			SendNotify(1, (LPARAM)pCard);
 			RemakeCardListVector();
+			Invalidate();
 		}
 		else
 		{
@@ -104,11 +105,16 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 					m_nCardCnt++;
 					SendNotify(1, (LPARAM)pCard);
 					RemakeCardListVector();
+					Invalidate();
 				}
 			}
 		}
 		return TRUE;
 	}
+	case NTM_IMPORTDLG:
+		SetDeckClass((E_CARDCLASS)wParam);
+		SetDeck(*(std::map<CCard*, int>*)lParam);
+		return TRUE;
 	default:
 		return FALSE;
 	}
@@ -125,11 +131,20 @@ void CDeckListCtrl::ResetDeck()
 	UpdateWindow();
 }
 
+void CDeckListCtrl::SetDeck(std::map<CCard*, int> mapDeckList)
+{
+	m_mapCards = mapDeckList;
+	RemakeCardListVector();
+	Invalidate();
+}
+
 void CDeckListCtrl::RemakeCardListVector()
 {
 	m_vecCards = std::vector<std::pair<CCard*, int>>(m_mapCards.begin(), m_mapCards.end());
 	std::sort(m_vecCards.begin(), m_vecCards.end(), m_fCompare);
-	Invalidate();
+	m_nCardCnt = 0;
+	for (auto itr : m_vecCards)
+		m_nCardCnt += itr.second;
 }
 
 void CDeckListCtrl::DrawDeckType(CDC* pDC, CRect rtItem)
@@ -316,6 +331,12 @@ void CDeckListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 	CPoint itemPos = point;
 	itemPos.y -= ITEM_TOP_OFFSET;
 
+	if (itemPos.y < 0)
+	{
+		//덱 표시 하는 부분임
+		return __super::OnRButtonDown(nFlags, point);
+	}
+
 	int nItemIdx = (itemPos.y / ITEM_HEIGHT) + m_nStartIdx;
 
 	if (nItemIdx >= m_vecCards.size())
@@ -330,6 +351,7 @@ void CDeckListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 		m_mapCards.erase(pairCard.first);
 
 	RemakeCardListVector();
+	Invalidate();
 	__super::OnRButtonDown(nFlags, point);
 }
 

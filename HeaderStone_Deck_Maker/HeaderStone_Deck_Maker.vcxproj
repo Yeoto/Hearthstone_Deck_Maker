@@ -202,9 +202,11 @@
     <ClInclude Include="CardListCtrl.h" />
     <ClInclude Include="CardNotifier.h" />
     <ClInclude Include="DeckListCtrl.h" />
+    <ClInclude Include="ExportDlg.h" />
     <ClInclude Include="FilterDlg.h" />
     <ClInclude Include="HeaderStone_Deck_Maker.h" />
     <ClInclude Include="HeaderStone_Deck_MakerDlg.h" />
+    <ClInclude Include="ImportDlg.h" />
     <ClInclude Include="ProgressDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -219,9 +221,11 @@
     <ClCompile Include="CardListCtrl.cpp" />
     <ClCompile Include="CardNotifier.cpp" />
     <ClCompile Include="DeckListCtrl.cpp" />
+    <ClCompile Include="ExportDlg.cpp" />
     <ClCompile Include="FilterDlg.cpp" />
     <ClCompile Include="HeaderStone_Deck_Maker.cpp" />
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp" />
+    <ClCompile Include="ImportDlg.cpp" />
     <ClCompile Include="ProgressDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -66,6 +66,12 @@
     <ClInclude Include="Base64.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="ImportDlg.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ExportDlg.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -103,6 +109,12 @@
     </ClCompile>
     <ClCompile Include="Base64.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportDlg.cpp">
+      <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="ExportDlg.cpp">
+      <Filter>Dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
