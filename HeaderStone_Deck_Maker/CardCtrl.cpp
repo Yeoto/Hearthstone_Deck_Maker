@@ -6,11 +6,12 @@
 
 #define TOP_OFFSET		-20
 #define LEFT_OFFSET		-10
-#define BOTTOM_OFFSET	-35
+#define BOTTOM_OFFSET	-25
 #define RIGHT_OFFSET	-10
 CCardCtrl::CCardCtrl() :
 	CCardNotifier(NTM_CARDCTRL), m_pCard(nullptr), m_dRatio(1.0)
 {
+	
 }
 
 
@@ -45,6 +46,19 @@ void CCardCtrl::SetCardData(CCard * pCard)
 		pCard->DownloadImg(imgPath);
 	}
 	m_pCardImage = &pCard->m_CardImage;
+
+	m_Offset.top = TOP_OFFSET;
+	m_Offset.left = LEFT_OFFSET;
+	m_Offset.bottom = BOTTOM_OFFSET;
+	m_Offset.right = RIGHT_OFFSET;
+
+	if (pCard->eType == E_CARDTYPE_HERO)
+	{
+		m_Offset.top -= 15;
+		m_Offset.bottom += 15;
+		m_Offset.left -= 8;
+		m_Offset.right += 8;
+	}
 }
 
 BOOL CCardCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -85,8 +99,8 @@ BOOL CCardCtrl::Create(const RECT & rect, CWnd * pParentWnd)
 	long w = m_pCardImage->GetWidth();
 	long h = m_pCardImage->GetHeight();
 
-	rectTemp.right = rect.left + w + LEFT_OFFSET + RIGHT_OFFSET;
-	rectTemp.bottom = rect.top + h + TOP_OFFSET + BOTTOM_OFFSET;
+	rectTemp.right = rect.left + w + m_Offset.left + m_Offset.right;
+	rectTemp.bottom = rect.top + h + m_Offset.top + m_Offset.bottom;
 
 	return CWnd::Create(NULL, NULL, WS_CHILD | WS_VISIBLE, rectTemp, pParentWnd, -1);
 }
@@ -127,7 +141,7 @@ void CCardCtrl::OnPaint()
 	{
 		long w = m_pCardImage->GetWidth();
 		long h = m_pCardImage->GetHeight();
-		m_pCardImage->Draw(dc.GetSafeHdc(), rect.left + (LEFT_OFFSET * m_dRatio), rect.top + (TOP_OFFSET * m_dRatio), w * m_dRatio, h * m_dRatio);
+		m_pCardImage->Draw(dc.GetSafeHdc(), rect.left + (m_Offset.left * m_dRatio), rect.top + (m_Offset.top * m_dRatio), w * m_dRatio, h * m_dRatio);
 	}
 }
 
@@ -139,7 +153,7 @@ void CCardCtrl::SetRatio(double dRatio)
 	{
 		long w = m_pCardImage->GetWidth();
 		long h = m_pCardImage->GetHeight();
-		SetWindowPos(&wndTop, 0, 0, w*m_dRatio + ((RIGHT_OFFSET + LEFT_OFFSET) * m_dRatio), h*m_dRatio + ((BOTTOM_OFFSET + TOP_OFFSET) * m_dRatio), SWP_NOZORDER | SWP_NOMOVE);
+		SetWindowPos(&wndTop, 0, 0, w*m_dRatio + ((m_Offset.right + m_Offset.left) * m_dRatio), h*m_dRatio + ((m_Offset.bottom + m_Offset.top) * m_dRatio), SWP_NOZORDER | SWP_NOMOVE);
 	}
 }
 
@@ -161,7 +175,7 @@ void CCardCtrl::DrawCard(CDC* pDC)
 	{
 		long w = m_pCardImage->GetWidth();
 		long h = m_pCardImage->GetHeight();
-		m_pCardImage->Draw(pDC->GetSafeHdc(), rect.left + (LEFT_OFFSET * m_dRatio), rect.top + (TOP_OFFSET * m_dRatio), w * m_dRatio, h * m_dRatio);
+		m_pCardImage->Draw(pDC->GetSafeHdc(), rect.left + (m_Offset.left * m_dRatio), rect.top + (m_Offset.top * m_dRatio), w * m_dRatio, h * m_dRatio);
 	}
 }
 

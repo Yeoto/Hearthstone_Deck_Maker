@@ -25,11 +25,13 @@ public:
 	void CalcColRowMaxPage(BOOL bRepos = TRUE);
 	void ReposCards();
 	void ModifyCardData();
+	void ModifyCardCtrl();
 	void SetStartIndex(int nIdx) { m_nStartIdx = nIdx; }
 private:
 	void InvalidateAll();
 private:
 	CWnd* m_pTempCtrl;
+	std::vector<CCard*> m_vecFilteredCard;
 	std::vector<CWnd*> m_vecCardCtrl;
 
 	double m_dRatio;

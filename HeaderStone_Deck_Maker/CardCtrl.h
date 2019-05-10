@@ -31,6 +31,8 @@ private:
 	double m_dRatio;
 	CCard* m_pCard;
 	CImage* m_pCardImage;
+
+	CRect m_Offset;
 public:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 };

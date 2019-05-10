@@ -51,6 +51,7 @@ BOOL CCardListCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_pTempCtrl = pCardCtrl;
 
+	ModifyCardData();
 	CalcColRowMaxPage();
 	return TRUE;
 }
@@ -165,19 +166,24 @@ void CCardListCtrl::ModifyCardData()
 
 		return FALSE;
 	});
+	m_vecFilteredCard = vecCardList;
+	ModifyCardCtrl();
+}
 
+void CCardListCtrl::ModifyCardCtrl()
+{
 	for (int i = 0; i < m_nCol * m_nRow; i++)
 	{
 		CCardCtrl* pWnd = (CCardCtrl*)m_vecCardCtrl[i];
 		int nCardIdx = m_nStartIdx + i;
-		if (nCardIdx >= vecCardList.size())
+		if (nCardIdx >= m_vecFilteredCard.size())
 		{
 			pWnd->SetDrawCard(FALSE);
 		}
 		else
 		{
 			pWnd->SetDrawCard(TRUE);
-			pWnd->SetCardData(vecCardList[nCardIdx]);
+			pWnd->SetCardData(m_vecFilteredCard[nCardIdx]);
 		}
 	}
 	InvalidateAll();
@@ -222,7 +228,7 @@ BOOL CCardListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 	case NTM_FILTERDLG:
 		m_nStartIdx = 0;
 		CalcColRowMaxPage(TRUE);
-		//ModifyCardData();
+		ModifyCardData();
 		InvalidateAll();
 		return TRUE;
 	case NTM_DECKLISTCTRL:
@@ -278,7 +284,7 @@ void CCardListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 		if (m_nStartIdx < 0)
 			m_nStartIdx = 0;
 		else
-			ModifyCardData();
+			ModifyCardCtrl();
 	}
 	else if (rtRightBtn.PtInRect(point))
 	{
@@ -286,7 +292,7 @@ void CCardListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 		if (m_nStartIdx >= m_nMaxIdx)
 			m_nStartIdx = m_nMaxIdx;
 		else
-			ModifyCardData();
+			ModifyCardCtrl();
 	}
 
 	CWnd::OnLButtonDown(nFlags, point);
@@ -325,7 +331,7 @@ BOOL CCardListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 			for (CWnd* pWnd : m_vecCardCtrl)
 				((CCardCtrl*)pWnd)->SetRatio(m_dRatio);
 			ReposCards();
-			ModifyCardData();
+			ModifyCardCtrl();
 		}
 	}
 	else
@@ -355,7 +361,7 @@ BOOL CCardListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 		}
 
 		if (bRedraw)
-			ModifyCardData();
+			ModifyCardCtrl();
 	}
 	return CWnd::OnMouseWheel(nFlags, zDelta, pt);
 }

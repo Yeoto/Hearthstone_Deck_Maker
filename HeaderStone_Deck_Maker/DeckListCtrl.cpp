@@ -373,7 +373,7 @@ void CDeckListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 		return;
 
 	CCard* pCard = m_vecCards[nItemIdx].first;
-	SendNotify(NULL, (LPARAM)pCard);
+	SendNotify(-1, (LPARAM)pCard);
 	__super::OnRButtonDown(nFlags, point);
 }
 

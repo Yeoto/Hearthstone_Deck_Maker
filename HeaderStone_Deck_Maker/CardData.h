@@ -228,7 +228,7 @@ public:
 	void AddCard(CCard* pCard);
 	void MakeTempCard();
 	void TraceAll();
-	void DownloadAllImg();
+	void DownloadAllImg(BOOL* bBreak);
 
 	void DeckCode2CardList(std::string deckCode, E_CARDCLASS& eDeckClass, std::map<CCard*, int>& m_mapCards);
 	void CardList2DeckCode(E_CARDCLASS eDeckClass, std::map<CCard*, int> mapDeckList, CString& deckCode);

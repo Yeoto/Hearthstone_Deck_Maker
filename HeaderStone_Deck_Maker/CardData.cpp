@@ -450,7 +450,7 @@ void CCardListMgr::TraceAll()
 		pCard->Trace();
 }
 
-void CCardListMgr::DownloadAllImg()
+void CCardListMgr::DownloadAllImg(BOOL* bContinu)
 {
 	TCHAR path[_MAX_PATH] = _T("");
 	GetModuleFileName(NULL, path, _MAX_PATH);
@@ -464,6 +464,9 @@ void CCardListMgr::DownloadAllImg()
 
 	for (CCard* pCard : m_vecCardList)
 	{
+		if ( bContinu == FALSE )
+			break;
+
 		if ( pCard->m_CardImage == NULL )
 			pCard->DownloadImg(imgPath);
 	}
