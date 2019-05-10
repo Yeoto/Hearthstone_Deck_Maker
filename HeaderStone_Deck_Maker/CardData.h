@@ -106,6 +106,7 @@ public:
 	std::vector<std::wstring> vecMechanics;
 	CImage m_CardImage;
 
+	BOOL m_bDownloadingImg;
 	CCard() { Init(); }
 	void Init();
 	void Trace();
@@ -227,7 +228,7 @@ public:
 	void AddCard(CCard* pCard);
 	void MakeTempCard();
 	void TraceAll();
-	void DownloadAllImg(CProgressDlg* pProgress = NULL);
+	void DownloadAllImg();
 
 	void DeckCode2CardList(std::string deckCode, E_CARDCLASS& eDeckClass, std::map<CCard*, int>& m_mapCards);
 	void CardList2DeckCode(E_CARDCLASS eDeckClass, std::map<CCard*, int> mapDeckList, CString& deckCode);

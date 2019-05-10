@@ -172,6 +172,7 @@ void CCard::Init()
 	this->urlImg = L"";
 	this->urlImgGold = L"";
 	this->vecMechanics.clear();
+	m_bDownloadingImg = 0;
 }
 
 void CCard::Trace()
@@ -337,6 +338,11 @@ void CCard::DownloadImg(std::string imgPath)
 {
 	// 황금 카드 정보가 있긴 하지만
 	// Gif 관련해서 설정하는건 귀찮으니까 안함
+	if (m_bDownloadingImg == TRUE)
+		return;
+
+	m_bDownloadingImg = TRUE;
+
 	MCurl* pCurl = MCurl::GetInstance();
 	std::string temp;
 	temp.assign(urlImg.begin(), urlImg.end());
@@ -344,11 +350,12 @@ void CCard::DownloadImg(std::string imgPath)
 
 	HRESULT hResult = m_CardImage.Load(imgfilePath);
 	
+	m_bDownloadingImg = FALSE;
+
 	if (FAILED(hResult)) {
-		CString strTmp = _T("ERROR: Failed to load :");
-		strTmp += imgfilePath;
 		return;
 	}
+
 }
 
 CCardListMgr* CCardListMgr::m_pInstance;
@@ -443,7 +450,7 @@ void CCardListMgr::TraceAll()
 		pCard->Trace();
 }
 
-void CCardListMgr::DownloadAllImg(CProgressDlg* pProgress)
+void CCardListMgr::DownloadAllImg()
 {
 	TCHAR path[_MAX_PATH] = _T("");
 	GetModuleFileName(NULL, path, _MAX_PATH);
@@ -455,17 +462,10 @@ void CCardListMgr::DownloadAllImg(CProgressDlg* pProgress)
 	std::string imgPath = UpperPath + "\\Image\\";
 	_mkdir(imgPath.c_str());
 
-	if ( pProgress != NULL)
-	{
-		pProgress->SetLoadingString(_T("금손들이 그림 그리는 중..."));
-		pProgress->SetProgressMax(m_vecCardList.size());
-	}
 	for (CCard* pCard : m_vecCardList)
 	{
-		pCard->DownloadImg(imgPath);
-
-		if ( pProgress != NULL)
-			pProgress->IndexPlusOne();
+		if ( pCard->m_CardImage == NULL )
+			pCard->DownloadImg(imgPath);
 	}
 }
 

@@ -2,6 +2,8 @@
 #include "CardCtrl.h"
 #include "CardData.h"
 
+#include <direct.h>
+
 #define TOP_OFFSET		-20
 #define LEFT_OFFSET		-10
 #define BOTTOM_OFFSET	-35
@@ -28,19 +30,21 @@ void CCardCtrl::SetCardData(CCard * pCard)
 		ASSERT(0);
 
 	m_pCard = pCard;
-	m_pCardImage = &pCard->m_CardImage;
+	if (pCard->m_CardImage == NULL)
+	{
+		TCHAR path[_MAX_PATH] = _T("");
+		GetModuleFileName(NULL, path, _MAX_PATH);
 
-	//std::wstring temp;
-	//temp.assign(pCard->imgfilePath.begin(), pCard->imgfilePath.end());
-	//CString strImgPath = temp.c_str();
-	//
-	//HRESULT hResult = m_CardImage.Load(strImgPath);
-	//
-	//if (FAILED(hResult)) {
-	//	CString strTmp = _T("ERROR: Failed to load :");
-	//	strTmp += strImgPath;
-	//	return;
-	//}
+		std::wstring temp = path;
+		std::string pathT; pathT.assign(temp.begin(), temp.end());
+		std::string UpperPath = pathT.substr(0, pathT.rfind(L'\\'));
+
+		std::string imgPath = UpperPath + "\\Image\\";
+		_mkdir(imgPath.c_str());
+
+		pCard->DownloadImg(imgPath);
+	}
+	m_pCardImage = &pCard->m_CardImage;
 }
 
 BOOL CCardCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -101,7 +105,25 @@ void CCardCtrl::OnPaint()
 	dc.Rectangle(rect);
 #endif
 
-	if ( m_pCardImage != NULL )
+	if (m_pCardImage->GetBits() != NULL)
+	{
+		if ( m_pCardImage != NULL )
+			m_pCardImage->Destroy();
+
+		TCHAR path[_MAX_PATH] = _T("");
+		GetModuleFileName(NULL, path, _MAX_PATH);
+
+		std::wstring temp = path;
+		std::string pathT; pathT.assign(temp.begin(), temp.end());
+		std::string UpperPath = pathT.substr(0, pathT.rfind(L'\\'));
+
+		std::string imgPath = UpperPath + "\\Image\\";
+		_mkdir(imgPath.c_str());
+
+		m_pCard->DownloadImg(imgPath);
+	}
+
+	if ( m_pCardImage->GetBits() != NULL )
 	{
 		long w = m_pCardImage->GetWidth();
 		long h = m_pCardImage->GetHeight();
