@@ -123,15 +123,20 @@ void CCardListCtrl::CalcColRowMaxPage(BOOL bRepos)
 void CCardListCtrl::ReposCards()
 {
 	CRect cardrect;
+	CRect rtCardList;
+	this->GetClientRect(rtCardList);
 	m_pTempCtrl->GetClientRect(cardrect);
 	int nCardWidth = cardrect.Width();
 	int nCardHeight = cardrect.Height();
 	int nCardListCnt = m_vecCardCtrl.size();
+
+	int nTopOffset = (rtCardList.Height() - (m_nRow * nCardHeight)) / 2;
+	int nLeftOffset = (rtCardList.Width() - (m_nCol * nCardWidth) - (SIDEBTN_OFFSET * 2)) / 2;
 	for (int i = 0; i < nCardListCnt; i++)
 	{
 		CWnd* pWnd = m_vecCardCtrl[i];
-		int nX = (i % m_nCol) * nCardWidth;
-		int nY = (i / m_nCol) * nCardHeight;
+		int nX = (i % m_nCol) * nCardWidth + nLeftOffset;
+		int nY = (i / m_nCol) * nCardHeight + nTopOffset;
 
 		pWnd->MoveWindow(nX + SIDEBTN_OFFSET, nY, nCardWidth, nCardHeight);
 	}
@@ -220,6 +225,11 @@ BOOL CCardListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 		//ModifyCardData();
 		InvalidateAll();
 		return TRUE;
+	case NTM_DECKLISTCTRL:
+	{
+		CCard* pCard = (CCard*)lParam;
+		return TRUE;
+	}
 	default:
 		return FALSE;
 	}

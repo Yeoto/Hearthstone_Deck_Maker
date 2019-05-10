@@ -58,6 +58,7 @@ CDeckListCtrl::~CDeckListCtrl()
 
 BEGIN_MESSAGE_MAP(CDeckListCtrl, CWnd)
 	ON_WM_PAINT()
+	ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
 	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
@@ -325,7 +326,7 @@ void CDeckListCtrl::OnPaint()
 }
 
 
-void CDeckListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
+void CDeckListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CPoint itemPos = point;
@@ -334,7 +335,7 @@ void CDeckListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 	if (itemPos.y < 0)
 	{
 		//덱 표시 하는 부분임
-		return __super::OnRButtonDown(nFlags, point);
+		return __super::OnLButtonDown(nFlags, point);
 	}
 
 	int nItemIdx = (itemPos.y / ITEM_HEIGHT) + m_nStartIdx;
@@ -352,6 +353,27 @@ void CDeckListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 
 	RemakeCardListVector();
 	Invalidate();
+	__super::OnLButtonDown(nFlags, point);
+}
+
+void CDeckListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	CPoint itemPos = point;
+	itemPos.y -= ITEM_TOP_OFFSET;
+
+	if (itemPos.y < 0)
+	{
+		//덱 표시 하는 부분임
+		return __super::OnRButtonDown(nFlags, point);
+	}
+
+	int nItemIdx = (itemPos.y / ITEM_HEIGHT) + m_nStartIdx;
+
+	if (nItemIdx >= m_vecCards.size())
+		return;
+
+	CCard* pCard = m_vecCards[nItemIdx].first;
+	SendNotify(NULL, (LPARAM)pCard);
 	__super::OnRButtonDown(nFlags, point);
 }
 
