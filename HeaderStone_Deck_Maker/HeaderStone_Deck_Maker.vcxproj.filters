@@ -19,6 +19,9 @@
     <Filter Include="Dialog\Notifier">
       <UniqueIdentifier>{5d974107-7e51-4258-9f50-7b917a4381f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util\Card Data">
+      <UniqueIdentifier>{880a2bbb-1797-4cdd-8886-6f090cd910b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HeaderStone_Deck_MakerDlg.h">
@@ -37,9 +40,6 @@
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="MCurl.h">
-      <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="CardData.h">
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="CardCtrl.h">
@@ -72,6 +72,18 @@
     <ClInclude Include="ExportDlg.h">
       <Filter>Dialog</Filter>
     </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Util\Card Data</Filter>
+    </ClInclude>
+    <ClInclude Include="CardEnum.h">
+      <Filter>Util\Card Data</Filter>
+    </ClInclude>
+    <ClInclude Include="CardFilter.h">
+      <Filter>Util\Card Data</Filter>
+    </ClInclude>
+    <ClInclude Include="CardListMgr.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -84,9 +96,6 @@
       <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="MCurl.cpp">
-      <Filter>Util</Filter>
-    </ClCompile>
-    <ClCompile Include="CardData.cpp">
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="CardCtrl.cpp">
@@ -115,6 +124,15 @@
     </ClCompile>
     <ClCompile Include="ExportDlg.cpp">
       <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Util\Card Data</Filter>
+    </ClCompile>
+    <ClCompile Include="CardFilter.cpp">
+      <Filter>Util\Card Data</Filter>
+    </ClCompile>
+    <ClCompile Include="CardListMgr.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

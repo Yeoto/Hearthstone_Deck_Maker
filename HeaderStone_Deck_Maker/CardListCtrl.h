@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "CardCtrl.h"
-#include "CardData.h"
+#include "CCardListMgr.h"
 #include "CardNotifier.h"
 
 class CCardListCtrl :

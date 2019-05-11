@@ -212,8 +212,11 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="MCurl.h" />
-    <ClInclude Include="CardData.h" />
+    <ClInclude Include="CardListMgr.h" />
     <ClInclude Include="NotifyMsg.h" />
+    <ClInclude Include="Card.h" />
+    <ClInclude Include="CardEnum.h" />
+    <ClInclude Include="CardFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base64.cpp" />
@@ -234,7 +237,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MCurl.cpp" />
-    <ClCompile Include="CardData.cpp" />
+    <ClCompile Include="CardListMgr.cpp" />
+    <ClCompile Include="Card.cpp" />
+    <ClCompile Include="CardFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HeaderStoneDeckMaker.rc" />

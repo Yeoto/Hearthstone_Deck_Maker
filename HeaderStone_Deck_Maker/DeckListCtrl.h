@@ -4,7 +4,7 @@
 #include <vector>
 #include <functional>
 #include <map>
-#include "CardData.h"
+#include "CCardListMgr.h"
 #include "CardNotifier.h"
 #include "NotifyMsg.h"
 

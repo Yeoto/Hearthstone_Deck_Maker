@@ -30,6 +30,7 @@ CString MCurl::get(MURL UrlData)
 	//-H "X-RapidAPI-Key: FtLw2MDySLmshyBjDI8UXrGOU9qDp1xnrRXjsn5pvdVuwgPqYV"
 	curl_global_init(CURL_GLOBAL_DEFAULT);
 	curl = curl_easy_init();
+	buffer = "";
 	if (curl)
 	{
 		curl_easy_setopt(curl, CURLOPT_URL, UrlData.strCmd.c_str());

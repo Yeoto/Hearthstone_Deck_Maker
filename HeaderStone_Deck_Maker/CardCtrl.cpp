@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CardCtrl.h"
-#include "CardData.h"
+#include "CCardListMgr.h"
 
 #include <direct.h>
 

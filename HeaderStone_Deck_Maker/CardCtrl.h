@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CardData.h"
+#include "CCardListMgr.h"
 #include "CardNotifier.h"
 #include "NotifyMsg.h"
 
