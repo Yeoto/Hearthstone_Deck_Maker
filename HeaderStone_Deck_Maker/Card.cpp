@@ -2,8 +2,6 @@
 #include "Card.h"
 
 #include <algorithm>
-#include <string>
-#include <vector>
 
 #include "MCurl.h"
 

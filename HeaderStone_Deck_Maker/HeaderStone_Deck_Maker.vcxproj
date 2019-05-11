@@ -217,6 +217,7 @@
     <ClInclude Include="Card.h" />
     <ClInclude Include="CardEnum.h" />
     <ClInclude Include="CardFilter.h" />
+    <ClInclude Include="MetaDeckData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Base64.cpp" />
@@ -240,6 +241,7 @@
     <ClCompile Include="CardListMgr.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="CardFilter.cpp" />
+    <ClCompile Include="MetaDeckData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HeaderStoneDeckMaker.rc" />

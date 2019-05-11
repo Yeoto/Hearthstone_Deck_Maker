@@ -4,10 +4,13 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "CardEnum.h"
+#include "CardFilter.h"
 
 class CProgressDlg;
 class CCardEncoder;
-class CCardFilter;
+class CCard;
+class CMetaDeckData;
 
 class CCardListMgr
 {
@@ -29,6 +32,8 @@ public:
 	void TraceAll();
 	void DownloadAllImg(BOOL* bBreak);
 
+	void AddMetaDeck(CMetaDeckData* pMetaDeck);
+
 	void DeckCode2CardList(std::string deckCode, E_CARDCLASS& eDeckClass, std::map<CCard*, int>& m_mapCards);
 	void CardList2DeckCode(E_CARDCLASS eDeckClass, std::map<CCard*, int> mapDeckList, CString& deckCode);
 private:
@@ -36,6 +41,7 @@ private:
 	static void destroy() { delete m_pInstance; }
 	std::vector<CCard*> m_vecHeroSkinList;
 	std::vector<CCard*> m_vecCardList;
+	std::vector<CMetaDeckData*> m_vecMetaDeckList;
 	CCard* m_pTempCard;
 	CCardFilter m_Filter;
 };

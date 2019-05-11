@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "CardListCtrl.h"
 
+#include "Card.h"
+#include "CardListMgr.h"
+#include "CardCtrl.h"
+
 #define SIDEBTN_OFFSET 50
 
 CCardListCtrl::CCardListCtrl() : CCardNotifier(NTM_CARDLISTCTRL), m_dRatio(1.0)

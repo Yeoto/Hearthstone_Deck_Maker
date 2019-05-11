@@ -6,8 +6,8 @@
 #include "Base64.h"
 #include "MCurl.h"
 #include "Card.h"
-#include "CardFilter.h"
 #include "ProgressDlg.h"
+#include "MetaDeckData.h"
 
 CCardListMgr* CCardListMgr::m_pInstance;
 
@@ -32,6 +32,14 @@ CCardListMgr::~CCardListMgr()
 		{
 			delete pCard;
 			pCard = NULL;
+		}
+	}
+	for (CMetaDeckData* pMetaDeck : m_vecMetaDeckList)
+	{
+		if (pMetaDeck != NULL)
+		{
+			delete pMetaDeck;
+			pMetaDeck = NULL;
 		}
 	}
 	delete m_pTempCard;
@@ -121,6 +129,11 @@ void CCardListMgr::DownloadAllImg(BOOL* bContinu)
 		if ( pCard->m_CardImage == NULL )
 			pCard->DownloadImg(imgPath);
 	}
+}
+
+void CCardListMgr::AddMetaDeck(CMetaDeckData* pMetaDeck)
+{
+	m_vecMetaDeckList.push_back(pMetaDeck);
 }
 
 void CCardListMgr::DeckCode2CardList(std::string deckCode, E_CARDCLASS& eDeckClass, std::map<CCard*, int>& mapCards)

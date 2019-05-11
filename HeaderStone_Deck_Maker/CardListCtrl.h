@@ -2,9 +2,11 @@
 #include <afxwin.h>
 
 #include <vector>
-#include "CardCtrl.h"
-#include "CCardListMgr.h"
 #include "CardNotifier.h"
+
+class CardListMgr;
+class CCard;
+class CardCtrl;
 
 class CCardListCtrl :
 	public CWnd, public CCardNotifier

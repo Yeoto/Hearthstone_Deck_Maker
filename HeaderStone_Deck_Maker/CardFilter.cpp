@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "CardFilter.h"
 
-#include <string>
-
-#include "CardEnum.h"
 #include "Card.h"
 
 BOOL CCardFilter::IsAgree(CCard* pCard)

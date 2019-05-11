@@ -84,6 +84,9 @@
     <ClInclude Include="CardListMgr.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="MetaDeckData.h">
+      <Filter>Util\Card Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -133,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="CardListMgr.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="MetaDeckData.cpp">
+      <Filter>Util\Card Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

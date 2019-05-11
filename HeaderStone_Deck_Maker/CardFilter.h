@@ -1,5 +1,10 @@
 #pragma once
 
+#include <string>
+
+#include "CardEnum.h"
+
+class CCard;
 class CCardFilter
 {
 public:

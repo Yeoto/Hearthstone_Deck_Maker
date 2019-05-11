@@ -1,8 +1,10 @@
 #pragma once
 
-#include "CCardListMgr.h"
+#include "CardListMgr.h"
 #include "CardNotifier.h"
 #include "NotifyMsg.h"
+
+class CCard;
 
 class CCardCtrl :
 	public CWnd, CCardNotifier

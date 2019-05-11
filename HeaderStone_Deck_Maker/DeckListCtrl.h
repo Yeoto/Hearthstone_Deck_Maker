@@ -4,9 +4,12 @@
 #include <vector>
 #include <functional>
 #include <map>
-#include "CCardListMgr.h"
+#include "CardEnum.h"
 #include "CardNotifier.h"
 #include "NotifyMsg.h"
+
+class CCardListMgr;
+class CCard;
 
 class CDeckListCtrl :
 	public CWnd, CCardNotifier

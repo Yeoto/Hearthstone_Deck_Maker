@@ -2,6 +2,10 @@
 #include "DeckListCtrl.h"
 #include <algorithm>
 
+#include "Card.h"
+#include "CardListMgr.h"
+
+
 #define ITEM_TOP_OFFSET 80
 #define ITEM_HEIGHT 40
 
