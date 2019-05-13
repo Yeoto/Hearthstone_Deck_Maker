@@ -4,6 +4,7 @@
 #include "CardEnum.h"
 
 class CCard;
+class CCardListMgr;
 
 class CMetaDeckData
 {
@@ -11,14 +12,17 @@ public:
 	CMetaDeckData();
 
 public:
+	CMetaDeckData & operator=(const CMetaDeckData &rhs);
 	void Init();
-
+	BOOL ImportMetaDeckData(std::wstring strName, void* pValue);
+	BOOL DeckListStr2DeckListMap();
 public:
 	E_CARDCLASS m_eDeckClass;
 	int m_nArcheType;
-	CString m_strArcheType;
-	int m_nAvgGameLength;
+	std::wstring m_strArcheType;
+	double m_dAvgGameLength;
 	double m_dAvgPlayerTurn;
+	std::wstring m_strDeckList;
 	std::map<CCard*, int> m_mapDeckList;
 	int m_nTotalGames;
 	double m_dWinRate;

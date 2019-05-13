@@ -117,6 +117,7 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 		return TRUE;
 	}
 	case NTM_IMPORTDLG:
+	case NTM_IMPORTMETADECKDLG:
 		SetDeckClass((E_CARDCLASS)wParam);
 		SetDeck(*(std::map<CCard*, int>*)lParam);
 		return TRUE;
@@ -245,15 +246,59 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 
 		CString strCost;
 		int nCost = pCard->nCost < 0 ? 0 : pCard->nCost;
+		E_CARDRARITY eRarity = pCard->eRarity;
+
 		strCost.Format(_T("%d"), nCost);
 
-		CBrush brCost(RGB(80, 155, 211));
+		COLORREF clrCost = RGB(255, 255, 255);
+		switch (eRarity)
+		{
+		case E_CARDRARITY_FREE:
+			clrCost = RGB(255, 255, 255);
+			break;
+		case E_CARDRARITY_COMMON:
+			clrCost = RGB(244, 251, 255);
+			break;
+		case E_CARDRARITY_RARE:
+			clrCost = RGB(52, 123, 233);
+			break;
+		case E_CARDRARITY_EPIC:
+			clrCost = RGB(214, 59, 252);
+			break;
+		case E_CARDRARITY_LEGENDARY:
+			clrCost = RGB(255, 150, 15);
+			break;
+		default:
+			ASSERT(0);
+		}
+
+		CBrush brCost(clrCost);
 		CBrush* pOldBrush = pDC->SelectObject(&brCost);
 		pDC->Rectangle(rtCost);
 		pDC->SelectObject(pOldBrush);
 
+		CFont cFont;
+		cFont.CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("-사파이어IIM"));
+		CFont* pOldFont = pDC->SelectObject(&cFont);
+
+		pDC->SetTextColor(RGB(0,0,0));
+		for (int nOffX = -1; nOffX <= 1; nOffX++)
+		{
+			for (int nOffY = -1; nOffY <= 1; nOffY++)
+			{
+				CRect rtTemp = rtCost;
+				rtTemp.left -= nOffX;
+				rtTemp.right -= nOffX;
+				rtTemp.top -= nOffY;
+				rtTemp.bottom -= nOffY;
+				pDC->DrawText(strCost, rtTemp, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			}
+		}
+
 		pDC->SetTextColor(RGB(255, 255, 255));
 		pDC->DrawText(strCost, rtCost, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+		pDC->SelectObject(pOldFont);
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 
@@ -272,8 +317,29 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 		pDC->Rectangle(rtName);
 		pDC->SelectObject(pOldBrush);
 
+		CFont cFont;
+		cFont.CreateFont(18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("-사파이어IIM"));
+		CFont* pOldFont = pDC->SelectObject(&cFont);
+
+		//pDC->SetTextColor(RGB(0, 0, 0));
+		//for (int nOffX = -1; nOffX <= 1; nOffX++)
+		//{
+		//	for (int nOffY = -1; nOffY <= 1; nOffY++)
+		//	{
+		//		CRect rtTemp = rtName;
+		//		rtTemp.left -= nOffX;
+		//		rtTemp.right -= nOffX;
+		//		rtTemp.top -= nOffY;
+		//		rtTemp.bottom -= nOffY;
+		//		pDC->DrawText(strName, rtTemp, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+		//	}
+		//}
+
+		//pDC->SetTextColor(RGB(255, 255, 255));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		pDC->DrawText(strName, rtName, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+		pDC->SelectObject(pOldFont);
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 
@@ -294,8 +360,14 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 		pDC->LineTo(CPoint(rtCnt.left, rtCnt.bottom));
 		pDC->SelectObject(pOldCntPen);
 
+		CFont cFont;
+		cFont.CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("-사파이어IIM"));
+		CFont* pOldFont = pDC->SelectObject(&cFont);
+
 		pDC->SetTextColor(RGB(0, 0, 0));
 		pDC->DrawText(strName, rtCnt, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+		pDC->SelectObject(pOldFont);
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	pDC->SelectObject(pOldPen);

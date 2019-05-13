@@ -24,7 +24,7 @@ CCardCtrl::~CCardCtrl()
 BEGIN_MESSAGE_MAP(CCardCtrl, CStatic)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
-	ON_WM_RBUTTONUP()
+	ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 void CCardCtrl::SetCardData(CCard * pCard)
@@ -187,11 +187,11 @@ BOOL CCardCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lParam)
 }
 
 
-void CCardCtrl::OnRButtonUp(UINT nFlags, CPoint point)
+void CCardCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	if ( m_bDrawCard == TRUE )
 		SendNotify(NULL, (LPARAM)m_pCard);
 
-	__super::OnRButtonUp(nFlags, point);
+	__super::OnLButtonUp(nFlags, point);
 }

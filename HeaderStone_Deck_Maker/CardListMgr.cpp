@@ -34,12 +34,15 @@ CCardListMgr::~CCardListMgr()
 			pCard = NULL;
 		}
 	}
-	for (CMetaDeckData* pMetaDeck : m_vecMetaDeckList)
+	for (std::pair<E_CARDCLASS, std::vector<CMetaDeckData*>> pairMetaDeck : m_mapMetaDeckList)
 	{
-		if (pMetaDeck != NULL)
+		for (CMetaDeckData* pMetaDeck : pairMetaDeck.second)
 		{
-			delete pMetaDeck;
-			pMetaDeck = NULL;
+			if (pMetaDeck != NULL)
+			{
+				delete pMetaDeck;
+				pMetaDeck = NULL;
+			}
 		}
 	}
 	delete m_pTempCard;
@@ -131,9 +134,12 @@ void CCardListMgr::DownloadAllImg(BOOL* bContinu)
 	}
 }
 
-void CCardListMgr::AddMetaDeck(CMetaDeckData* pMetaDeck)
+void CCardListMgr::AddMetaDeck(E_CARDCLASS eCardClass, CMetaDeckData* pMetaDeck)
 {
-	m_vecMetaDeckList.push_back(pMetaDeck);
+	if (m_mapMetaDeckList.find(eCardClass) == m_mapMetaDeckList.end())
+		m_mapMetaDeckList[eCardClass] = std::vector<CMetaDeckData*>();
+
+	m_mapMetaDeckList[eCardClass].push_back(pMetaDeck);
 }
 
 void CCardListMgr::DeckCode2CardList(std::string deckCode, E_CARDCLASS& eDeckClass, std::map<CCard*, int>& mapCards)

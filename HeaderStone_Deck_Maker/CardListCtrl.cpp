@@ -344,11 +344,13 @@ BOOL CCardListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 		if (zDelta > 0)
 		{
 			//»Ÿ ¿ß∑Œ
+			if (m_nStartIdx == 0)
+				bRedraw = FALSE;
+
 			m_nStartIdx -= m_nCol * m_nRow;
 			if (m_nStartIdx < 0)
 			{
 				m_nStartIdx = 0;
-				bRedraw = FALSE;
 			}
 		}
 		else if (zDelta < 0)

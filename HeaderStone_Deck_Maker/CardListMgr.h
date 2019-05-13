@@ -32,7 +32,8 @@ public:
 	void TraceAll();
 	void DownloadAllImg(BOOL* bBreak);
 
-	void AddMetaDeck(CMetaDeckData* pMetaDeck);
+	void AddMetaDeck(E_CARDCLASS eCardClass, CMetaDeckData* pMetaDeck);
+	std::map<E_CARDCLASS, std::vector<CMetaDeckData*>> GetMetaDeckList() {return m_mapMetaDeckList;}
 
 	void DeckCode2CardList(std::string deckCode, E_CARDCLASS& eDeckClass, std::map<CCard*, int>& m_mapCards);
 	void CardList2DeckCode(E_CARDCLASS eDeckClass, std::map<CCard*, int> mapDeckList, CString& deckCode);
@@ -41,7 +42,7 @@ private:
 	static void destroy() { delete m_pInstance; }
 	std::vector<CCard*> m_vecHeroSkinList;
 	std::vector<CCard*> m_vecCardList;
-	std::vector<CMetaDeckData*> m_vecMetaDeckList;
+	std::map<E_CARDCLASS, std::vector<CMetaDeckData*>> m_mapMetaDeckList;
 	CCard* m_pTempCard;
 	CCardFilter m_Filter;
 };

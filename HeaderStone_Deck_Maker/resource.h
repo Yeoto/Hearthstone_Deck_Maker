@@ -11,8 +11,8 @@
 #define IDD_FILTER_DLG                  130
 #define IDD_LOADING_DATA_PROGRESS_DLG   132
 #define IDD_DECKCODE_DLG                134
-#define IDR_MENU1                       137
 #define IDR_MENU                        137
+#define IDD_IMPORT_BY_METADECK_DLG      138
 #define IDC_CLASS_DRUID_RDO             1006
 #define IDC_CLASS_HUNTER_RDO            1007
 #define IDC_CLASS_MAGE_RDO              1008
@@ -106,6 +106,21 @@
 #define IDC_AMOUNT_STC                  1101
 #define IDC_DECKCODE_EDT                1102
 #define IDC_IMPORT_SPL                  1104
+#define IDC_DECKCLASS_CMB               1105
+#define IDC_DECKTYPE_CMB                1106
+#define IDC_DECK_AVG_LENGTH_EDT         1108
+#define IDC_DECK_AVG_TURN_EDT           1109
+#define IDC_DECKCLASS_STC               1110
+#define IDC_DECKTYPE_STC                1111
+#define IDC_DECK_TOTAL_GAMES_EDT        1112
+#define IDC_DECK_WIN_RATE_EDT           1113
+#define IDC_DECKINFO_STC                1114
+#define IDC_DECK_AVG_LENGTH_STC         1115
+#define IDC_DECK_AVG_LENGTH_STC2        1116
+#define IDC_DECK_AVG_TURN_STC           1117
+#define IDC_DECK_TOTAL_GAMES_STC        1118
+#define IDC_DECK_WIN_RATE_STC           1119
+#define IDC_DECK_WIN_RATE_STC2          1120
 #define ID_IMPORT_IMPORTBYDECKCODE      32771
 #define ID_IMPORT_IMPORTMETADECK        32772
 
@@ -113,9 +128,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        138
+#define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         32773
-#define _APS_NEXT_CONTROL_VALUE         1105
-#define _APS_NEXT_SYMED_VALUE           101
+#define _APS_NEXT_CONTROL_VALUE         1121
+#define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

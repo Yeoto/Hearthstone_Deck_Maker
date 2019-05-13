@@ -87,6 +87,9 @@
     <ClInclude Include="MetaDeckData.h">
       <Filter>Util\Card Data</Filter>
     </ClInclude>
+    <ClInclude Include="ImportByMetaDeck.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="MetaDeckData.cpp">
       <Filter>Util\Card Data</Filter>
+    </ClCompile>
+    <ClCompile Include="ImportByMetaDeck.cpp">
+      <Filter>Dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
