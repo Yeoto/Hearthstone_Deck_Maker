@@ -116,9 +116,9 @@ E_CARDRARITY CCard::GetCardRarityByStr(std::wstring str)
 	else if (str.compare(_T("legendary")) == 0)
 		return E_CARDRARITY_LEGENDARY;
 	else
-		return E_CARDRARITY_FREE;
+		return E_CARDRARITY_NONE;
 
-	return E_CARDRARITY_FREE;
+	return E_CARDRARITY_NONE;
 }
 
 E_CARDCLASS CCard::GetCardClassByStr(std::wstring str)
@@ -159,7 +159,7 @@ void CCard::Init()
 	this->eCardSet = E_CARDSET_NONE;
 	this->eType = E_CARDTYPE_NONE;
 	this->eRace = E_CARDRACE_NONE;
-	this->eRarity = E_CARDRARITY_FREE;
+	this->eRarity = E_CARDRARITY_NONE;
 	this->eClass = E_CARDCLASS_NONE;
 	this->nCost = -1;
 	this->nHealth = -1;

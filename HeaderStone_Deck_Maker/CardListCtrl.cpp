@@ -237,7 +237,35 @@ BOOL CCardListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 		return TRUE;
 	case NTM_DECKLISTCTRL:
 	{
+		if (wParam != -1)
+			return FALSE;
+
 		CCard* pCard = (CCard*)lParam;
+		auto it = std::find(m_vecFilteredCard.begin(), m_vecFilteredCard.end(), pCard);
+
+		if (it == m_vecFilteredCard.end())
+			return FALSE;
+
+		int nIndex = it - m_vecFilteredCard.begin();
+
+		if (m_nStartIdx < nIndex)
+		{
+			int nTemp = m_nStartIdx;
+			while (m_nStartIdx <= nIndex)
+			{
+				nTemp = m_nStartIdx;
+				m_nStartIdx += (m_nCol * m_nRow);
+			}
+			m_nStartIdx = nTemp;
+		}
+		else
+		{
+			while (m_nStartIdx > nIndex)
+				m_nStartIdx -= (m_nCol * m_nRow);
+		}
+
+		ModifyCardData();
+		InvalidateAll();
 		return TRUE;
 	}
 	default:

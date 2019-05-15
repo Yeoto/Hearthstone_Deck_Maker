@@ -219,9 +219,30 @@ void CDeckListCtrl::DrawDeckType(CDC* pDC, CRect rtItem)
 
 	CString strCardCnt;
 	strCardCnt.Format(_T("%d / 30"), m_nCardCnt);
-	rtItem.DeflateRect(20, 20);
+	rtItem.DeflateRect(10, 10);
+
+	CFont cFont;
+	cFont.CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("³ª´®°íµñ"));
+	CFont* pOldFont = pDC->SelectObject(&cFont);
+
+	pDC->SetTextColor(RGB(0, 0, 0));
+	for (int nOffX = -1; nOffX <= 1; nOffX++)
+	{
+		for (int nOffY = -1; nOffY <= 1; nOffY++)
+		{
+			CRect rtTemp = rtItem;
+			rtTemp.left -= nOffX;
+			rtTemp.right -= nOffX;
+			rtTemp.top -= nOffY;
+			rtTemp.bottom -= nOffY;
+			pDC->DrawText(strCardCnt, rtTemp, DT_RIGHT | DT_BOTTOM | DT_SINGLELINE);
+		}
+	}
+
+	pDC->SetTextColor(RGB(255, 255, 255));
 	pDC->DrawText(strCardCnt, rtItem, DT_RIGHT | DT_BOTTOM | DT_SINGLELINE);
 
+	pDC->SelectObject(pOldFont);
 	pDC->SelectObject(pOldPen);
 	pDC->RestoreDC(nSaveDC);
 }
@@ -254,7 +275,7 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 		switch (eRarity)
 		{
 		case E_CARDRARITY_FREE:
-			clrCost = RGB(255, 255, 255);
+			clrCost = RGB(202, 174, 136);
 			break;
 		case E_CARDRARITY_COMMON:
 			clrCost = RGB(244, 251, 255);
@@ -278,7 +299,7 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 		pDC->SelectObject(pOldBrush);
 
 		CFont cFont;
-		cFont.CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("-»çÆÄÀÌ¾îIIM"));
+		cFont.CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("³ª´®°íµñ"));
 		CFont* pOldFont = pDC->SelectObject(&cFont);
 
 		pDC->SetTextColor(RGB(0,0,0));
@@ -318,7 +339,7 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 		pDC->SelectObject(pOldBrush);
 
 		CFont cFont;
-		cFont.CreateFont(18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("-»çÆÄÀÌ¾îIIM"));
+		cFont.CreateFont(18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("³ª´®°íµñ"));
 		CFont* pOldFont = pDC->SelectObject(&cFont);
 
 		//pDC->SetTextColor(RGB(0, 0, 0));
@@ -361,7 +382,7 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 		pDC->SelectObject(pOldCntPen);
 
 		CFont cFont;
-		cFont.CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("-»çÆÄÀÌ¾îIIM"));
+		cFont.CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("³ª´®°íµñ"));
 		CFont* pOldFont = pDC->SelectObject(&cFont);
 
 		pDC->SetTextColor(RGB(0, 0, 0));

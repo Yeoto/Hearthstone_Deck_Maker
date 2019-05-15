@@ -50,7 +50,7 @@ public:
 		nRace = 0;
 
 		bUseRarity = FALSE;
-		nRarity = E_CARDRARITY_FREE;
+		nRarity = E_CARDRARITY_NONE;
 
 		bUseClass = TRUE;
 		nClass = E_CARDCLASS_DRUID;
