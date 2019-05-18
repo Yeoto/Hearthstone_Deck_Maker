@@ -90,6 +90,9 @@
     <ClInclude Include="ImportByMetaDeck.h">
       <Filter>Dialog</Filter>
     </ClInclude>
+    <ClInclude Include="RegistryUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -145,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="ImportByMetaDeck.cpp">
       <Filter>Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="RegistryUtil.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

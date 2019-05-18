@@ -261,15 +261,16 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 	////////////////////////////////////////////////////////////////////////////////////
 	// Cost
 	{
+		CRect rtRarity = rtItem;
 		CRect rtCost = rtItem;
-		rtCost.left = 0; rtCost.right = ITEM_HEIGHT;	//Á¤»ç°¢ÇüÀ¸·Î Æí--¾È ÇÏ°Ô
+		rtRarity.left = 0; rtRarity.right = ITEM_HEIGHT * 0.5;
+		rtRarity.DeflateRect(5, 5, 0, 5);
+		rtCost.left = ITEM_HEIGHT * 0.5; rtCost.right = ITEM_HEIGHT * 1.5;
 		rtCost.DeflateRect(5, 5);
 
 		CString strCost;
 		int nCost = pCard->nCost < 0 ? 0 : pCard->nCost;
 		E_CARDRARITY eRarity = pCard->eRarity;
-
-		strCost.Format(_T("%d"), nCost);
 
 		COLORREF clrCost = RGB(255, 255, 255);
 		switch (eRarity)
@@ -293,13 +294,20 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 			ASSERT(0);
 		}
 
-		CBrush brCost(clrCost);
-		CBrush* pOldBrush = pDC->SelectObject(&brCost);
+		CBrush brRarity(clrCost);
+		CBrush* pOldBrush = pDC->SelectObject(&brRarity);
+		pDC->Rectangle(rtRarity);
+		pDC->SelectObject(pOldBrush);
+
+		CBrush brCost(RGB(80, 155, 211));
+		pOldBrush = pDC->SelectObject(&brCost);
 		pDC->Rectangle(rtCost);
 		pDC->SelectObject(pOldBrush);
 
+		strCost.Format(_T("%d"), nCost);
+
 		CFont cFont;
-		cFont.CreateFont(20, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("³ª´®°íµñ"));
+		cFont.CreateFont(18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("³ª´®°íµñ"));
 		CFont* pOldFont = pDC->SelectObject(&cFont);
 
 		pDC->SetTextColor(RGB(0,0,0));
@@ -318,8 +326,8 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 
 		pDC->SetTextColor(RGB(255, 255, 255));
 		pDC->DrawText(strCost, rtCost, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-
 		pDC->SelectObject(pOldFont);
+
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 
@@ -327,7 +335,7 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 	// Name
 	{
 		CRect rtName = rtItem;
-		rtName.left = ITEM_HEIGHT; rtName.right -= ITEM_HEIGHT;	//¿ÞÂÊÀº Cost Ä­¸¸Å­ ³ÐÈ÷°í, ¿À¸¥ÂÊÀº Ä«µå °¹¼ö ¸¸Å­ ÁÙÀÌ°í !
+		rtName.left = ITEM_HEIGHT * 1.5; rtName.right -= ITEM_HEIGHT;	//¿ÞÂÊÀº Cost Ä­¸¸Å­ ³ÐÈ÷°í, ¿À¸¥ÂÊÀº Ä«µå °¹¼ö ¸¸Å­ ÁÙÀÌ°í !
 		rtName.DeflateRect(5, 5);
 
 		CString strName;
@@ -339,7 +347,7 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 		pDC->SelectObject(pOldBrush);
 
 		CFont cFont;
-		cFont.CreateFont(18, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("³ª´®°íµñ"));
+		cFont.CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("³ª´®°íµñ"));
 		CFont* pOldFont = pDC->SelectObject(&cFont);
 
 		//pDC->SetTextColor(RGB(0, 0, 0));
