@@ -37,6 +37,8 @@ public:
 
 	void DeckCode2CardList(std::string deckCode, E_CARDCLASS& eDeckClass, std::map<CCard*, int>& m_mapCards);
 	void CardList2DeckCode(E_CARDCLASS eDeckClass, std::map<CCard*, int> mapDeckList, CString& deckCode);
+
+	std::string GetImgPath() { return m_imgPath; }
 private:
 	static CCardListMgr* m_pInstance;
 	static void destroy() { delete m_pInstance; }
@@ -45,4 +47,5 @@ private:
 	std::map<E_CARDCLASS, std::vector<CMetaDeckData*>> m_mapMetaDeckList;
 	CCard* m_pTempCard;
 	CCardFilter m_Filter;
+	std::string m_imgPath;
 };

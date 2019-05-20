@@ -121,8 +121,14 @@
 #define IDC_DECK_TOTAL_GAMES_STC        1118
 #define IDC_DECK_WIN_RATE_STC           1119
 #define IDC_DECK_WIN_RATE_STC2          1120
+#define IDC_BOOKMARK_CHK                1121
+#define IDC_SPLIT1                      1122
+#define IDC_EXPORT_SPL                  1122
 #define ID_IMPORT_IMPORTBYDECKCODE      32771
 #define ID_IMPORT_IMPORTMETADECK        32772
+#define ID_IMPORT_IMPORTBYLOCAL         32773
+#define ID_EXPORT_EXPORTBYDECKCODE      32774
+#define ID_EXPORT_EXPORTBYLOCAL         32775
 
 // Next default values for new objects
 // 
@@ -130,7 +136,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         32773
-#define _APS_NEXT_CONTROL_VALUE         1121
+#define _APS_NEXT_CONTROL_VALUE         1123
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

@@ -19,7 +19,7 @@
 #define BOOKMARK_SIZE 60
 
 CCardCtrl::CCardCtrl() :
-	CCardNotifier(NTM_CARDCTRL), m_pCard(nullptr), m_dRatio(1.0)
+	CCardNotifier(NTM_CARDCTRL), m_pCard(nullptr), m_dRatio(1.0), m_pCardImage(nullptr)
 {
 	
 }
@@ -44,14 +44,7 @@ void CCardCtrl::SetCardData(CCard * pCard)
 	m_pCard = pCard;
 	if (pCard->m_CardImage == NULL)
 	{
-		TCHAR path[_MAX_PATH] = _T("");
-		GetModuleFileName(NULL, path, _MAX_PATH);
-
-		std::wstring temp = path;
-		std::string pathT; pathT.assign(temp.begin(), temp.end());
-		std::string UpperPath = pathT.substr(0, pathT.rfind(L'\\'));
-
-		std::string imgPath = UpperPath + "\\Image\\";
+		std::string imgPath = CCardListMgr::GetInstance()->GetImgPath();
 		_mkdir(imgPath.c_str());
 
 		pCard->DownloadImg(imgPath);
@@ -70,6 +63,17 @@ void CCardCtrl::SetCardData(CCard * pCard)
 		m_Offset.left -= 8;
 		m_Offset.right += 8;
 	}
+}
+
+void CCardCtrl::SetBookMarkImage(CImage* pImageBookmark)
+{
+	if (pImageBookmark == NULL)
+	{
+		ASSERT(0);
+		return;
+	}
+
+	m_pBookmarkImgage = pImageBookmark;
 }
 
 BOOL CCardCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -195,57 +199,16 @@ void CCardCtrl::DrawCard(CDC* pDC)
 		CRect rtBookmark;
 		double r = BOOKMARK_SIZE * m_dRatio;
 		this->GetClientRect(rtBookmark);
+		rtBookmark.right -= (20 * m_dRatio);
 		rtBookmark.left = rtBookmark.right - r;
+		rtBookmark.top += (20 * m_dRatio);
 		rtBookmark.bottom = rtBookmark.top + r;
 
 #if defined(_DEBUG)
 		pDC->Rectangle(rtBookmark);
 #endif
-
-		CBrush brStar(RGB(245, 231, 99));
-		CBrush* pOldBrush = pDC->SelectObject(&brStar);
-
-		POINT pt[11];
-		pt[0].x  = rtBookmark.left + r/2;
-		pt[0].y  = rtBookmark.top + 0;
-		pt[1].x  = rtBookmark.left + 19;
-		pt[1].y  = rtBookmark.top + 15;
-		pt[2].x  = rtBookmark.left + 25;
-		pt[2].y  = rtBookmark.top + 0;
-		pt[3].x  = rtBookmark.left + 31;
-		pt[3].y  = rtBookmark.top + 15;
-		pt[4].x  = rtBookmark.left + 55;
-		pt[4].y  = rtBookmark.top + 15;
-		pt[5].x  = rtBookmark.left + 35;
-		pt[5].y  = rtBookmark.top + 25;
-		pt[6].x  = rtBookmark.left + 45;
-		pt[6].y  = rtBookmark.top + 45;
-		pt[7].x  = rtBookmark.left + 25;
-		pt[7].y  = rtBookmark.top + 32;
-		pt[8].x  = rtBookmark.left + 5 ;
-		pt[8].y  = rtBookmark.top + 45;
-		pt[9].x  = rtBookmark.left + 15;
-		pt[9].y  = rtBookmark.top + 25;
-		pt[10].x = rtBookmark.left + 0 ;
-		pt[10].y = rtBookmark.top + 15;
-
-		pDC->Polygon(pt, 11);
-
-// 		pDC->BeginPath();
-// 		for (int i = 0; i < 10; i+=2)
-// 		{
-// 			int x1 = sin(72.0 * i * M_PI / 180) * r / 2;
-// 			int y1 = cos(72.0 * i * M_PI / 180) * r / 2;
-// 			int x2 = sin(72.0 * ((i + 2) % 5) * M_PI / 180) * r / 2;
-// 			int y2 = cos(72.0 * ((i + 2) % 5) * M_PI / 180) * r / 2;
-// 
-// 			pDC->MoveTo(rtBookmark.left + r/2 + x1, rtBookmark.top + r / 2 - y1);
-// 			pDC->LineTo(rtBookmark.left + r/2 + x2, rtBookmark.top + r / 2 - y2);
-// 		}
-// 		pDC->EndPath();
-// 		pDC->StrokeAndFillPath();
-
-		pDC->SelectObject(pOldBrush);
+		if ( m_pBookmarkImgage != NULL )
+			m_pBookmarkImgage->Draw(pDC->GetSafeHdc(), rtBookmark);
 	}
 }
 
@@ -272,6 +235,7 @@ void CCardCtrl::OnRButtonUp(UINT nFlags, CPoint point)
 	{
 		ASSERT(0);
 	}
+	SendNotify(1, NULL);
 	Invalidate(TRUE);
 	UpdateWindow();
 	__super::OnRButtonUp(nFlags, point);

@@ -83,37 +83,8 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 	{
 	case NTM_CARDCTRL:
 	{
-		CCard* pCard = (CCard*)lParam;
-		std::map<CCard*, int>::iterator itrMap;
-
-		if (m_nCardCnt == 30)
-			return FALSE;
-
-		if (pCard->eClass != E_CARDCLASS_NONE && m_eDeckClass != E_CARDCLASS_NONE && m_eDeckClass != pCard->eClass)
-			return FALSE;
-
-		if ((itrMap = m_mapCards.find(pCard)) == m_mapCards.end())
-		{
-			m_mapCards[pCard] = 1;
-			m_nCardCnt++;
-			SendNotify(1, (LPARAM)pCard);
-			RemakeCardListVector();
-			Invalidate();
-		}
-		else
-		{
-			if (pCard->eRarity != E_CARDRARITY::E_CARDRARITY_LEGENDARY)
-			{
-				if (m_mapCards[pCard] != 2)
-				{
-					m_mapCards[pCard] = 2;
-					m_nCardCnt++;
-					SendNotify(1, (LPARAM)pCard);
-					RemakeCardListVector();
-					Invalidate();
-				}
-			}
-		}
+		if ( wParam == 0 && lParam != NULL )
+			Add2DeckList((CCard*)lParam);
 		return TRUE;
 	}
 	case NTM_IMPORTDLG:
@@ -142,6 +113,40 @@ void CDeckListCtrl::SetDeck(std::map<CCard*, int> mapDeckList)
 	m_mapCards = mapDeckList;
 	RemakeCardListVector();
 	Invalidate();
+}
+
+void CDeckListCtrl::Add2DeckList(CCard* pCard)
+{
+	std::map<CCard*, int>::iterator itrMap;
+
+	if (m_nCardCnt == 30)
+		return ;
+
+	if (pCard->eClass != E_CARDCLASS_NONE && m_eDeckClass != E_CARDCLASS_NONE && m_eDeckClass != pCard->eClass)
+		return ;
+
+	if ((itrMap = m_mapCards.find(pCard)) == m_mapCards.end())
+	{
+		m_mapCards[pCard] = 1;
+		m_nCardCnt++;
+		SendNotify(1, (LPARAM)pCard);
+		RemakeCardListVector();
+		Invalidate();
+	}
+	else
+	{
+		if (pCard->eRarity != E_CARDRARITY::E_CARDRARITY_LEGENDARY)
+		{
+			if (m_mapCards[pCard] != 2)
+			{
+				m_mapCards[pCard] = 2;
+				m_nCardCnt++;
+				SendNotify(1, (LPARAM)pCard);
+				RemakeCardListVector();
+				Invalidate();
+			}
+		}
+	}
 }
 
 void CDeckListCtrl::RemakeCardListVector()

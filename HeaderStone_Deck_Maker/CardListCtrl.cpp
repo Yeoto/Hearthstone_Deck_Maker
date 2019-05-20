@@ -55,6 +55,18 @@ BOOL CCardListCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_pTempCtrl = pCardCtrl;
 
+	std::string imgPath = CCardListMgr::GetInstance()->GetImgPath();
+	imgPath += "bookmark.png";
+	std::wstring temp;
+	temp.assign(imgPath.begin(), imgPath.end());
+
+	HRESULT hResult = m_ImgBookmark.Load(temp.c_str());
+
+	if (FAILED(hResult))
+	{
+		AfxMessageBox(_T("Bookmark 이미지 파일이 존재하지 않습니다. 기능이 제한됩니다."));
+	}
+
 	ModifyCardData();
 	CalcColRowMaxPage();
 	return TRUE;
@@ -103,6 +115,7 @@ void CCardListCtrl::CalcColRowMaxPage(BOOL bRepos)
 			pCardCtrl->Create(CRect(0, 0, 0, 0), this);
 			pCardCtrl->SetDrawCard(FALSE);
 			pCardCtrl->SetRatio(m_dRatio);
+			pCardCtrl->SetBookMarkImage(&m_ImgBookmark);
 			m_vecCardCtrl.push_back(pCardCtrl);
 		}
 	}
@@ -229,11 +242,13 @@ BOOL CCardListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 {
 	switch (eSender)
 	{
+	case NTM_CARDCTRL:
+		if ( wParam == 1 && lParam == NULL )
+			CalcColRowMaxPage(TRUE);
+		return TRUE;
 	case NTM_FILTERDLG:
 		m_nStartIdx = 0;
 		CalcColRowMaxPage(TRUE);
-		ModifyCardData();
-		InvalidateAll();
 		return TRUE;
 	case NTM_DECKLISTCTRL:
 	{

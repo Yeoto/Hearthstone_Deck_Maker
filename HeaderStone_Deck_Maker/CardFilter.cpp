@@ -2,10 +2,15 @@
 #include "CardFilter.h"
 
 #include "Card.h"
+#include "RegistryUtil.h"
 
 BOOL CCardFilter::IsAgree(CCard* pCard)
 {
 	BOOL bResult = TRUE;
+
+	if (bBookmark)
+		bResult &= CRegistryUtil::IsBookMark(pCard->ndbfID);
+
 	if (bUseCost)
 		bResult &= nFromCost <= pCard->nCost && pCard->nCost <= nToCost;
 	if (bUseAttack)
@@ -45,6 +50,8 @@ CCardFilter & CCardFilter::operator=(const CCardFilter &rhs)
 {
 	if (this == &rhs)      // µ¿ÀÏ °´Ã¼?
 		return *this;
+
+	bBookmark = rhs.bBookmark;
 
 	bUseText = rhs.bUseText;
 	bUseCardSet = rhs.bUseCardSet;

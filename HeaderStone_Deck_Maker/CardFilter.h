@@ -5,9 +5,13 @@
 #include "CardEnum.h"
 
 class CCard;
+class CRegistryUtil;
+
 class CCardFilter
 {
 public:
+	BOOL bBookmark;
+
 	BOOL bUseText;
 	std::wstring strSearch;
 
@@ -37,6 +41,8 @@ public:
 
 	CCardFilter()
 	{
+		bBookmark = FALSE;
+
 		bUseText = FALSE;
 		strSearch = _T("");
 

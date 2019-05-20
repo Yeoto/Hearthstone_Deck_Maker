@@ -32,6 +32,7 @@ public:
 private:
 	void InvalidateAll();
 private:
+	CImage m_ImgBookmark;
 	CWnd* m_pTempCtrl;
 	std::vector<CCard*> m_vecFilteredCard;
 	std::vector<CWnd*> m_vecCardCtrl;

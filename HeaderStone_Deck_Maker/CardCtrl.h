@@ -17,6 +17,7 @@ public:
 
 public:
 	void SetCardData(CCard* pCard);
+	void SetBookMarkImage(CImage* pImageBookmark);
 	
 	virtual BOOL OnCreate(LPCREATESTRUCT lpCreateStruct);
 	BOOL Create(const RECT& rect, CWnd* pParentWnd);
@@ -33,7 +34,7 @@ private:
 	double m_dRatio;
 	CCard* m_pCard;
 	CImage* m_pCardImage;
-
+	CImage* m_pBookmarkImgage;		//from CCardListCtrl;
 	CRect m_Offset;
 public:
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);

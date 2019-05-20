@@ -32,6 +32,7 @@ public:
 	void SetDeck(std::map<CCard*, int> mapDeckList);
 	void GetDeck(std::map<CCard*, int>& mapDeckList) { mapDeckList = m_mapCards; };
 
+	void Add2DeckList(CCard* pCard);
 private:
 	void RemakeCardListVector();
 	void DrawDeckType(CDC* pDC, CRect rtItem);
