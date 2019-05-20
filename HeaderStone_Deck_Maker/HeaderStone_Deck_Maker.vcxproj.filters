@@ -93,6 +93,9 @@
     <ClInclude Include="RegistryUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="DeckListMgr.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -150,6 +153,9 @@
       <Filter>Dialog</Filter>
     </ClCompile>
     <ClCompile Include="RegistryUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="DeckListMgr.cpp">
       <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>

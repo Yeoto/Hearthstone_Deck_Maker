@@ -206,6 +206,7 @@
     <ClInclude Include="CardListCtrl.h" />
     <ClInclude Include="CardNotifier.h" />
     <ClInclude Include="DeckListCtrl.h" />
+    <ClInclude Include="DeckListMgr.h" />
     <ClInclude Include="ExportDlg.h" />
     <ClInclude Include="FilterDlg.h" />
     <ClInclude Include="HeaderStone_Deck_Maker.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="CardCtrl.cpp" />
     <ClCompile Include="CardListCtrl.cpp" />
     <ClCompile Include="CardNotifier.cpp" />
+    <ClCompile Include="DeckListMgr.cpp" />
     <ClCompile Include="RegistryUtil.cpp" />
     <ClCompile Include="DeckListCtrl.cpp" />
     <ClCompile Include="ExportDlg.cpp" />
