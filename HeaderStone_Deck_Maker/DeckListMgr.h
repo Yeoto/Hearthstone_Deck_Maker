@@ -10,6 +10,6 @@ public:
 	~CDeckListMgr();
 
 public:
-	static BOOL Export2Json(std::map<CCard*, int> mapDeckList);
+	static BOOL Export2Json(int nIdx, CString strDeckName, std::map<CCard*, int> mapDeckList);
 };
 
