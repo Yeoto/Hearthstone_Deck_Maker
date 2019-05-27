@@ -5,6 +5,7 @@
 #include "Card.h"
 #include "CardListMgr.h"
 
+#define IDC_DECKNAME_EDT 1
 
 #define ITEM_TOP_OFFSET 80
 #define ITEM_HEIGHT 40
@@ -65,6 +66,8 @@ BEGIN_MESSAGE_MAP(CDeckListCtrl, CWnd)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
 	ON_WM_MOUSEWHEEL()
+	ON_WM_CREATE()
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 BOOL CDeckListCtrl::Create(CRect rect, CWnd * pParent)
@@ -104,6 +107,7 @@ void CDeckListCtrl::ResetDeck()
 	m_nStartIdx = 0;
 	m_nCardCnt = 0;
 	m_eDeckClass = E_CARDCLASS_NONE;
+	m_ctrlDeckName.SetWindowText(_T(""));
 	Invalidate();
 	UpdateWindow();
 }
@@ -113,6 +117,12 @@ void CDeckListCtrl::SetDeck(std::map<CCard*, int> mapDeckList)
 	m_mapCards = mapDeckList;
 	RemakeCardListVector();
 	Invalidate();
+}
+
+void CDeckListCtrl::GetDeck(CString& strDeck, std::map<CCard*, int>& mapDeckList)
+{
+	m_ctrlDeckName.GetWindowText(strDeck);
+	mapDeckList = m_mapCards;
 }
 
 void CDeckListCtrl::Add2DeckList(CCard* pCard)
@@ -149,22 +159,8 @@ void CDeckListCtrl::Add2DeckList(CCard* pCard)
 	}
 }
 
-void CDeckListCtrl::RemakeCardListVector()
+void CDeckListCtrl::GetDeckTypeClr(COLORREF& clrDeck, COLORREF& clrCardCnt)
 {
-	m_vecCards = std::vector<std::pair<CCard*, int>>(m_mapCards.begin(), m_mapCards.end());
-	std::sort(m_vecCards.begin(), m_vecCards.end(), m_fCompare);
-	m_nCardCnt = 0;
-	for (auto itr : m_vecCards)
-		m_nCardCnt += itr.second;
-}
-
-void CDeckListCtrl::DrawDeckType(CDC* pDC, CRect rtItem)
-{
-	int nSaveDC = pDC->SaveDC();
-	pDC->SetBkMode(TRANSPARENT);
-
-	COLORREF clrDeck = RGB(255, 255, 255);
-	COLORREF clrCardCnt = RGB(0, 0, 0);
 	switch (m_eDeckClass)
 	{
 	case E_CARDCLASS_NONE:
@@ -213,6 +209,25 @@ void CDeckListCtrl::DrawDeckType(CDC* pDC, CRect rtItem)
 	default:
 		break;
 	}
+}
+
+void CDeckListCtrl::RemakeCardListVector()
+{
+	m_vecCards = std::vector<std::pair<CCard*, int>>(m_mapCards.begin(), m_mapCards.end());
+	std::sort(m_vecCards.begin(), m_vecCards.end(), m_fCompare);
+	m_nCardCnt = 0;
+	for (auto itr : m_vecCards)
+		m_nCardCnt += itr.second;
+}
+
+void CDeckListCtrl::DrawDeckType(CDC* pDC, CRect rtItem)
+{
+	int nSaveDC = pDC->SaveDC();
+	pDC->SetBkMode(TRANSPARENT);
+
+	COLORREF clrDeck = RGB(255, 255, 255);
+	COLORREF clrCardCnt = RGB(0, 0, 0);
+	GetDeckTypeClr(clrDeck, clrCardCnt);
 
 	CPen penNone(PS_SOLID, 1, RGB(0,0,0));
 	CPen* pOldPen = pDC->SelectObject(&penNone);
@@ -277,29 +292,29 @@ void CDeckListCtrl::DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCount)
 		int nCost = pCard->nCost < 0 ? 0 : pCard->nCost;
 		E_CARDRARITY eRarity = pCard->eRarity;
 
-		COLORREF clrCost = RGB(255, 255, 255);
+		COLORREF clrRarity = RGB(255, 255, 255);
 		switch (eRarity)
 		{
 		case E_CARDRARITY_FREE:
-			clrCost = RGB(202, 174, 136);
+			clrRarity = RGB(202, 174, 136);
 			break;
 		case E_CARDRARITY_COMMON:
-			clrCost = RGB(244, 251, 255);
+			clrRarity = RGB(244, 251, 255);
 			break;
 		case E_CARDRARITY_RARE:
-			clrCost = RGB(52, 123, 233);
+			clrRarity = RGB(52, 123, 233);
 			break;
 		case E_CARDRARITY_EPIC:
-			clrCost = RGB(214, 59, 252);
+			clrRarity = RGB(214, 59, 252);
 			break;
 		case E_CARDRARITY_LEGENDARY:
-			clrCost = RGB(255, 150, 15);
+			clrRarity = RGB(255, 150, 15);
 			break;
 		default:
 			ASSERT(0);
 		}
 
-		CBrush brRarity(clrCost);
+		CBrush brRarity(clrRarity);
 		CBrush* pOldBrush = pDC->SelectObject(&brRarity);
 		pDC->Rectangle(rtRarity);
 		pDC->SelectObject(pOldBrush);
@@ -520,8 +535,53 @@ BOOL CDeckListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 
 	if (bRedraw == TRUE)
 	{
-		Invalidate();
+		CRect rtList;
+		GetClientRect(rtList);
+		rtList.top = ITEM_TOP_OFFSET;
+
+		InvalidateRect(rtList);
 		UpdateWindow();
 	}
 	return __super::OnMouseWheel(nFlags, zDelta, pt);
+}
+
+
+int CDeckListCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (__super::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  여기에 특수화된 작성 코드를 추가합니다.
+	CRect rect(lpCreateStruct->x, lpCreateStruct->y, lpCreateStruct->x + lpCreateStruct->cx, lpCreateStruct->y + lpCreateStruct->cy);
+	CRect rtName;
+	rtName.left = 20;
+	rtName.top = 20;
+	rtName.right = rect.Width() - 60;
+	rtName.bottom = rtName.top + 20;
+
+	m_ctrlDeckName.Create(WS_CHILD | WS_VISIBLE | WS_BORDER, rtName, this, IDC_DECKNAME_EDT);
+	return 0;
+}
+
+BOOL CDeckListCtrl::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	if (::GetDlgCtrlID(pMsg->hwnd) == IDC_DECKNAME_EDT)
+	{
+		// 에디트 컨트롤 IDC_EDIT9 번의 이벤트 중에서 아래 이벤트가 발생하면
+		// 에디트 컨트롤 영역만큼 부모 윈도우의 화면을 갱신한다.
+		switch (pMsg->message)
+		{
+		case WM_LBUTTONDOWN:
+		case WM_LBUTTONUP:
+		case WM_KILLFOCUS:
+		{
+			CRect rc;
+			m_ctrlDeckName.GetWindowRect(rc);
+			ScreenToClient(rc);
+			InvalidateRect(rc);
+		}
+		}
+	}
+	return __super::PreTranslateMessage(pMsg);
 }

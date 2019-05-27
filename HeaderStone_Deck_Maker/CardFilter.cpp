@@ -4,6 +4,41 @@
 #include "Card.h"
 #include "RegistryUtil.h"
 
+void CCardFilter::init()
+{
+	bBookmark = FALSE;
+
+	bUseText = FALSE;
+	strSearch = _T("");
+
+	bUseCardSet = TRUE;
+	nCardSet = E_CARDSET_REGULAR;
+
+	bUseType = FALSE;
+	nType = 0;
+
+	bUseRace = FALSE;
+	nRace = 0;
+
+	bUseRarity = FALSE;
+	nRarity = E_CARDRARITY_NONE;
+
+	bUseClass = TRUE;
+	nClass = E_CARDCLASS_DRUID;
+
+	bUseCost = FALSE;
+	nFromCost = 0;
+	nToCost = 0;
+
+	bUseAttack = FALSE;
+	nFromAttack = 0;
+	nToAttack = 0;
+
+	bUseHealth = FALSE;
+	nFromHealth = 0;
+	nToHealth = 0;
+}
+
 BOOL CCardFilter::IsAgree(CCard* pCard)
 {
 	BOOL bResult = TRUE;
@@ -31,12 +66,19 @@ BOOL CCardFilter::IsAgree(CCard* pCard)
 
 	if (bUseText)
 	{
+		std::wstring strSearchTemp = strSearch;
+		strSearchTemp.erase(std::remove_if(strSearchTemp.begin(), strSearchTemp.end(), [](wchar_t chr) { return chr == ' ';  }), strSearchTemp.end());
+
 		BOOL bTemp = FALSE;
-		std::size_t posName = pCard->strName.find(strSearch);
+		std::wstring  strTemp = pCard->strName;
+		strTemp.erase(std::remove_if(strTemp.begin(), strTemp.end(), [](wchar_t chr) { return chr == ' ';  }), strTemp.end());
+		std::size_t posName = strTemp.find(strSearch);
 		if (posName != std::string::npos)
 			bTemp = TRUE;
 
-		std::size_t posText = pCard->strText.find(strSearch);
+		strTemp = pCard->strText;
+		strTemp.erase(std::remove_if(strTemp.begin(), strTemp.end(), [](wchar_t chr) { return chr == ' ';  }), strTemp.end());
+		std::size_t posText = strTemp.find(strSearch);
 		if (posText != std::string::npos)
 			bTemp = TRUE;
 

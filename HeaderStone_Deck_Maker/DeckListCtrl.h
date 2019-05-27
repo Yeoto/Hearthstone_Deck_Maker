@@ -30,10 +30,11 @@ public:
 
 	void ResetDeck();
 	void SetDeck(std::map<CCard*, int> mapDeckList);
-	void GetDeck(std::map<CCard*, int>& mapDeckList) { mapDeckList = m_mapCards; };
+	void GetDeck(CString& strDeck, std::map<CCard*, int>& mapDeckList);
 
 	void Add2DeckList(CCard* pCard);
 private:
+	void GetDeckTypeClr(COLORREF& clrDeck, COLORREF& clrCardCnt);
 	void RemakeCardListVector();
 	void DrawDeckType(CDC* pDC, CRect rtItem);
 	void DrawItem(CDC* pDC, CRect rtItem, CCard* pCard, int nCard);
@@ -45,10 +46,13 @@ private:
 	int m_nCardCnt;
 
 	E_CARDCLASS m_eDeckClass;
+	CEdit m_ctrlDeckName;
 public:
 	afx_msg void OnPaint();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
 	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };
 

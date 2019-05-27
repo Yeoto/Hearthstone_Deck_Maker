@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <algorithm>
 
 #include "CardEnum.h"
 
@@ -41,40 +42,11 @@ public:
 
 	CCardFilter()
 	{
-		bBookmark = FALSE;
-
-		bUseText = FALSE;
-		strSearch = _T("");
-
-		bUseCardSet = TRUE;
-		nCardSet = E_CARDSET_REGULAR;
-
-		bUseType = FALSE;
-		nType = 0;
-
-		bUseRace = FALSE;
-		nRace = 0;
-
-		bUseRarity = FALSE;
-		nRarity = E_CARDRARITY_NONE;
-
-		bUseClass = TRUE;
-		nClass = E_CARDCLASS_DRUID;
-
-		bUseCost = FALSE;
-		nFromCost = 0;
-		nToCost = 0;
-
-		bUseAttack = FALSE;
-		nFromAttack = 0;
-		nToAttack = 0;
-
-		bUseHealth = FALSE;
-		nFromHealth = 0;
-		nToHealth = 0;
+		init();
 	};
 
 public:
+	void init();
 	BOOL IsAgree(CCard* pCard);
 	CCardFilter & operator=(const CCardFilter &rhs);
 };

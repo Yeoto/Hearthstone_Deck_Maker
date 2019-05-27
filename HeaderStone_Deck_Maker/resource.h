@@ -13,6 +13,7 @@
 #define IDD_DECKCODE_DLG                134
 #define IDR_MENU                        137
 #define IDD_IMPORT_BY_METADECK_DLG      138
+#define IDD_MANACURVE_DLG               139
 #define IDC_CLASS_DRUID_RDO             1006
 #define IDC_CLASS_HUNTER_RDO            1007
 #define IDC_CLASS_MAGE_RDO              1008
@@ -122,8 +123,9 @@
 #define IDC_DECK_WIN_RATE_STC           1119
 #define IDC_DECK_WIN_RATE_STC2          1120
 #define IDC_BOOKMARK_CHK                1121
-#define IDC_SPLIT1                      1122
 #define IDC_EXPORT_SPL                  1122
+#define IDC_MANACURVE                   1128
+#define IDC_FRM_MANA_CURVE              1129
 #define ID_IMPORT_IMPORTBYDECKCODE      32771
 #define ID_IMPORT_IMPORTMETADECK        32772
 #define ID_IMPORT_IMPORTBYLOCAL         32773
@@ -134,9 +136,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        140
+#define _APS_NEXT_RESOURCE_VALUE        142
 #define _APS_NEXT_COMMAND_VALUE         32773
-#define _APS_NEXT_CONTROL_VALUE         1123
+#define _APS_NEXT_CONTROL_VALUE         1130
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

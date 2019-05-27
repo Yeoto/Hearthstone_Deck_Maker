@@ -96,6 +96,12 @@
     <ClInclude Include="DeckListMgr.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="ChartViewer.h">
+      <Filter>Dialog\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="ManaCurveDlg.h">
+      <Filter>Dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeaderStone_Deck_MakerDlg.cpp">
@@ -157,6 +163,12 @@
     </ClCompile>
     <ClCompile Include="DeckListMgr.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartViewer.cpp">
+      <Filter>Dialog\Control</Filter>
+    </ClCompile>
+    <ClCompile Include="ManaCurveDlg.cpp">
+      <Filter>Dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

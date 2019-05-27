@@ -100,7 +100,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurld.lib;libcrypto.lib;libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcurld.lib;libcrypto.lib;libssl.lib;chartdir60.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <Midl>
@@ -126,7 +126,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurld.lib;libcrypto.lib;libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcurld.lib;libcrypto.lib;libssl.lib;chartdir60.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <Midl>
@@ -186,7 +186,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurl.lib;libcrypto.lib;libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcurl.lib;libcrypto.lib;libssl.lib;chartdir60.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <Midl>
@@ -205,12 +205,14 @@
     <ClInclude Include="CardCtrl.h" />
     <ClInclude Include="CardListCtrl.h" />
     <ClInclude Include="CardNotifier.h" />
+    <ClInclude Include="ChartViewer.h" />
     <ClInclude Include="DeckListCtrl.h" />
     <ClInclude Include="DeckListMgr.h" />
     <ClInclude Include="ExportDlg.h" />
     <ClInclude Include="FilterDlg.h" />
     <ClInclude Include="HeaderStone_Deck_Maker.h" />
     <ClInclude Include="HeaderStone_Deck_MakerDlg.h" />
+    <ClInclude Include="ManaCurveDlg.h" />
     <ClInclude Include="ImportByMetaDeck.h" />
     <ClInclude Include="ImportDlg.h" />
     <ClInclude Include="ProgressDlg.h" />
@@ -231,7 +233,9 @@
     <ClCompile Include="CardCtrl.cpp" />
     <ClCompile Include="CardListCtrl.cpp" />
     <ClCompile Include="CardNotifier.cpp" />
+    <ClCompile Include="ChartViewer.cpp" />
     <ClCompile Include="DeckListMgr.cpp" />
+    <ClCompile Include="ManaCurveDlg.cpp" />
     <ClCompile Include="RegistryUtil.cpp" />
     <ClCompile Include="DeckListCtrl.cpp" />
     <ClCompile Include="ExportDlg.cpp" />
