@@ -4,13 +4,15 @@
 
 #include "Card.h"
 #include "CardListMgr.h"
+#include "ImportByLocalDlg.h"
+#include "ImportByMetaDeck.h"
 
 #define IDC_DECKNAME_EDT 1
 
 #define ITEM_TOP_OFFSET 80
 #define ITEM_HEIGHT 40
 
-CDeckListCtrl::CDeckListCtrl() : CCardNotifier(NTM_DECKLISTCTRL), m_nStartIdx(0), m_nCardCnt(0), m_eDeckClass(E_CARDCLASS_NONE)
+CDeckListCtrl::CDeckListCtrl() : CCardNotifier(NTM_DECKLISTCTRL), m_nStartIdx(0), m_nCardCnt(0), m_eDeckClass(E_CARDCLASS_NONE), m_nKey(-1)
 {
 	WNDCLASS    wndcls;
 	HINSTANCE   hInst = AfxGetInstanceHandle();
@@ -91,11 +93,50 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 		return TRUE;
 	}
 	case NTM_IMPORTDLG:
-	case NTM_IMPORTMETADECKDLG:
-	case NTM_IMPORTLOCALDLG:
 		SetDeckClass((E_CARDCLASS)wParam);
 		SetDeck(*(std::map<CCard*, int>*)lParam);
 		return TRUE;
+	case NTM_IMPORTLOCALDLG:
+	case NTM_IMPORTMETADECKDLG:
+		return ExecuteNotifyFromDlg(wParam, lParam);
+	default:
+		return FALSE;
+	}
+}
+
+BOOL CDeckListCtrl::ExecuteNotifyFromDlg(WPARAM wParam, LPARAM lParam)
+{
+	if (lParam == NULL)
+		return FALSE;
+
+	switch (wParam)
+	{
+	case LocalDeckMsg::MSG_SETLOCALDECKMODIFY:
+	{
+		m_nKey = *(int*)lParam;
+		return TRUE;
+	}
+	case LocalDeckMsg::MSG_SETLOCALDECKSTRING:
+	case MetaDeckMsg::MSG_SETMETADECKSTRING:
+	{
+		CString strDeckName = *(CString*)lParam;
+		m_ctrlDeckName.SetWindowText(strDeckName);
+		return TRUE;
+	}
+	case LocalDeckMsg::MSG_SETLOCALDECKCLASS:
+	case MetaDeckMsg::MSG_SETMETADECKCLASS:
+	{
+		E_CARDCLASS eClass = *(E_CARDCLASS*)lParam;
+		SetDeckClass(eClass);
+		return TRUE;
+	}
+	case LocalDeckMsg::MSG_SETLOCALDECKLIST:
+	case MetaDeckMsg::MSG_SETMETADECKLIST:
+	{
+		std::map<CCard*, int> mapDeckList = *(std::map<CCard*, int>*)lParam;
+		SetDeck(mapDeckList);
+		return TRUE;
+	}
 	default:
 		return FALSE;
 	}
@@ -103,6 +144,7 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 
 void CDeckListCtrl::ResetDeck()
 {
+	m_nKey = -1;
 	m_vecCards.clear();
 	m_mapCards.clear();
 	m_nStartIdx = 0;

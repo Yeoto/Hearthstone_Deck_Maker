@@ -27,26 +27,24 @@ CDeckListMgr::~CDeckListMgr()
 
 BOOL CDeckListMgr::Export2Json(int nIdx, CString strDeckName, E_CARDCLASS eDeckClass, std::map<CCard*, int> mapDeckList)
 {
-	//FILE* fp;
-	//_tfopen_s(&fp, _T("deck_list.json"), _T("ab+"));
-	//if (fp == NULL)
-	//	return FALSE;
+	std::wstring strProgPath = CCardListMgr::GetInstance()->GetProgramPath();
+	strProgPath += _T("deck_list.json");
 	std::locale::global(std::locale("Korean"));
-	std::wifstream in(_T("deck_list.json"), std::ios::in);
+	std::wifstream in(strProgPath, std::ios::in);
 
 	wchar_t temp[2048];
 	CString strDeckList;
 
-	if (!in.is_open())
-		return FALSE;
-
-	while (!in.eof())
+	if (in.is_open())
 	{
-		in.getline(temp, 2048);
-		strDeckList += CString(temp);
-	}
+		while (!in.eof())
+		{
+			in.getline(temp, 2048);
+			strDeckList += CString(temp);
+		}
 
-	in.close();
+		in.close();
+	}
 
 	GenericDocument<UTF16<>> doc;
 	auto MakeNewDoc = [&doc]() 
@@ -55,7 +53,7 @@ BOOL CDeckListMgr::Export2Json(int nIdx, CString strDeckName, E_CARDCLASS eDeckC
 
 		GenericValue<UTF16<>> Deck;
 		Deck.SetObject();
-		Deck.AddMember(_T("Key"), GenericValue<UTF16<>>(kNumberType), doc.GetAllocator());
+		Deck.AddMember(_T("Key"), GenericValue<UTF16<>>(-1), doc.GetAllocator());
 		Deck.AddMember(_T("Deck Name"), GenericValue<UTF16<>>(kStringType), doc.GetAllocator());
 		Deck.AddMember(_T("Deck Class"), GenericValue<UTF16<>>(kNumberType), doc.GetAllocator());
 		Deck.AddMember(_T("Deck List"), GenericValue<UTF16<>>(kArrayType), doc.GetAllocator());
@@ -76,7 +74,7 @@ BOOL CDeckListMgr::Export2Json(int nIdx, CString strDeckName, E_CARDCLASS eDeckC
 	}
 
 	ASSERT(doc.IsArray());
-	BOOL bModify = FALSE;
+	int nMaxKey = -1;
 	for (auto& DeckData : doc.GetArray())
 	{
 		GenericValue<UTF16<>> Deck;
@@ -90,9 +88,13 @@ BOOL CDeckListMgr::Export2Json(int nIdx, CString strDeckName, E_CARDCLASS eDeckC
 		if ( !deckKey.IsInt() )
 			continue;
 
-		if (deckKey.GetInt() == nIdx)
+		int nCurKey = deckKey.GetInt();
+
+		if (nCurKey > nMaxKey)
+			nMaxKey = nCurKey;
+
+		if (nCurKey == nIdx)
 		{
-			bModify = TRUE;
 			doc.Erase(&DeckData);
 			break;
 		}
@@ -106,7 +108,7 @@ BOOL CDeckListMgr::Export2Json(int nIdx, CString strDeckName, E_CARDCLASS eDeckC
 	Deck.AddMember(_T("Deck Class"), GenericValue<UTF16<>>(kNumberType), doc.GetAllocator());
 	Deck.AddMember(_T("Deck List"), GenericValue<UTF16<>>(kArrayType), doc.GetAllocator());
 
-	Deck[_T("Key")] = nIdx;
+	Deck[_T("Key")] = nIdx < 0 ? nMaxKey + 1 : nIdx;
 	Deck[_T("Deck Name")] = GenericValue<UTF16<>>(strDeckName, doc.GetAllocator());
 	Deck[_T("Deck Class")] = eDeckClass;
 	
@@ -128,7 +130,7 @@ BOOL CDeckListMgr::Export2Json(int nIdx, CString strDeckName, E_CARDCLASS eDeckC
 	Writer<GenericStringBuffer<UTF16<>>, UTF16<>, UTF16<>> writer(Stringbuffer);
 	doc.Accept(writer);
 
-	std::wofstream out(_T("deck_list.json"), std::ios::out | std::ios::trunc);
+	std::wofstream out(strProgPath, std::ios::out | std::ios::trunc);
 	CString strResult = Stringbuffer.GetString();
 	out << strResult.GetBuffer();
 
@@ -137,8 +139,10 @@ BOOL CDeckListMgr::Export2Json(int nIdx, CString strDeckName, E_CARDCLASS eDeckC
 
 BOOL CDeckListMgr::Import2Json(std::map<int, LocalDeckData*>& mapLocalDeck)
 {
+	std::wstring strProgPath = CCardListMgr::GetInstance()->GetProgramPath();
+	strProgPath += _T("deck_list.json");
 	std::locale::global(std::locale("Korean"));
-	std::wifstream in(_T("deck_list.json"), std::ios::in);
+	std::wifstream in(strProgPath, std::ios::in);
 
 	wchar_t temp[2048];
 	CString strDeckList;
@@ -192,6 +196,7 @@ BOOL CDeckListMgr::Import2Json(std::map<int, LocalDeckData*>& mapLocalDeck)
 		int nKey = deckKey.GetInt();
 
 		LocalDeckData* pLocalDeck = new LocalDeckData();	//대화상자에서 delete 해줄꺼임
+		pLocalDeck->nKey = nKey;
 		pLocalDeck->eClass = (E_CARDCLASS)deckClass.GetInt();
 		pLocalDeck->strName = deckName.GetString();
 

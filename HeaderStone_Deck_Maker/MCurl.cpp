@@ -68,7 +68,7 @@ CString MCurl::get(MURL UrlData)
 	return CString(buffer.c_str());
 }
 
-std::wstring MCurl::DownloadImg(std::string filePath, std::string urlImg)
+std::wstring MCurl::DownloadImg(std::wstring filePath, std::string urlImg)
 {
 	CURL* curl;
 	FILE* fp;
@@ -76,13 +76,14 @@ std::wstring MCurl::DownloadImg(std::string filePath, std::string urlImg)
 
 	std::wstring strResult;
 	std::string filename = urlImg.substr(urlImg.rfind("/") + 1, urlImg.length());
-	filePath += filename;
+	std::wstring wfilename; wfilename.assign(filename.begin(), filename.end());
+	filePath += wfilename;
 
-	struct stat buffer;
+	struct _stat64i32 buffer;
 	// 같은 이름 파일 있으면 스킵함
-	if (stat(filePath.c_str(), &buffer) == 0)
+	if (_wstat(filePath.c_str(), &buffer) == 0)
 	{
-		strResult.assign(filePath.begin(), filePath.end());
+		strResult = filePath;
 		return strResult;
 	}
 
@@ -90,7 +91,7 @@ std::wstring MCurl::DownloadImg(std::string filePath, std::string urlImg)
 	curl = curl_easy_init();
 	if (curl)
 	{
-		fopen_s(&fp, filePath.c_str(), "wb+");
+		_wfopen_s(&fp, filePath.c_str(), _T("wb+"));
 		curl_easy_setopt(curl, CURLOPT_URL, urlImg.c_str());
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData2File);
@@ -103,7 +104,7 @@ std::wstring MCurl::DownloadImg(std::string filePath, std::string urlImg)
 	}
 	curl_global_cleanup();
 
-	strResult.assign(filePath.begin(), filePath.end());
+	strResult = filePath;
 	return strResult;
 }
 

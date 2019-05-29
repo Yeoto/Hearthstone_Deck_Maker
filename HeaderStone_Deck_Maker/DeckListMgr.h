@@ -10,6 +10,7 @@ class CCard;
 
 struct LocalDeckData
 {
+	int nKey;
 	E_CARDCLASS eClass;
 	CString strName;
 	std::map<CCard*, int> mapCardList;

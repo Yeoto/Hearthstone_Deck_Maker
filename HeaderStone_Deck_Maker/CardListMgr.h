@@ -38,7 +38,8 @@ public:
 	void DeckCode2CardList(std::string deckCode, E_CARDCLASS& eDeckClass, std::map<CCard*, int>& m_mapCards);
 	void CardList2DeckCode(E_CARDCLASS eDeckClass, std::map<CCard*, int> mapDeckList, CString& deckCode);
 
-	std::string GetImgPath() { return m_imgPath; }
+	std::wstring GetProgramPath() { return m_ProgPath; }
+	std::wstring GetImgPath() { return m_imgPath; }
 
 	CString GetClassStringByEnum(E_CARDCLASS eClass);
 private:
@@ -49,5 +50,6 @@ private:
 	std::map<E_CARDCLASS, std::vector<CMetaDeckData*>> m_mapMetaDeckList;
 	CCard* m_pTempCard;
 	CCardFilter m_Filter;
-	std::string m_imgPath;
+	std::wstring m_ProgPath;
+	std::wstring m_imgPath;
 };

@@ -55,12 +55,10 @@ BOOL CCardListCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_pTempCtrl = pCardCtrl;
 
-	std::string imgPath = CCardListMgr::GetInstance()->GetImgPath();
-	imgPath += "bookmark.png";
-	std::wstring temp;
-	temp.assign(imgPath.begin(), imgPath.end());
+	std::wstring imgPath = CCardListMgr::GetInstance()->GetImgPath();
+	imgPath += _T("bookmark.png");
 
-	HRESULT hResult = m_ImgBookmark.Load(temp.c_str());
+	HRESULT hResult = m_ImgBookmark.Load(imgPath.c_str());
 
 	if (FAILED(hResult))
 	{

@@ -54,7 +54,7 @@ public:
 	//¿¹¿Ü. È¥ÀÚ List·Î ³ª¿È
 	BOOL ImportMechanics(std::vector<std::string> vecValue);
 
-	void DownloadImg(std::string filePath);
+	void DownloadImg(std::wstring filePath);
 public:
 	// String to Enum Data
 	static E_CARDSET	GetCardSetByStr(std::wstring str);

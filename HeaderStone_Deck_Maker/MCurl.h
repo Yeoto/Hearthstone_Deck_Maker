@@ -34,7 +34,7 @@ class MCurl
 
 public:
 	CString get(MURL UrlData);
-	std::wstring DownloadImg(std::string filePath, std::string urlImg);
+	std::wstring DownloadImg(std::wstring filePath, std::string urlImg);
 	void put(MURL UrlData);
 
 	std::string GetAPIHost();

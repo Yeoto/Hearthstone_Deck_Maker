@@ -44,8 +44,8 @@ void CCardCtrl::SetCardData(CCard * pCard)
 	m_pCard = pCard;
 	if (pCard->m_CardImage == NULL)
 	{
-		std::string imgPath = CCardListMgr::GetInstance()->GetImgPath();
-		_mkdir(imgPath.c_str());
+		std::wstring imgPath = CCardListMgr::GetInstance()->GetImgPath();
+		_wmkdir(imgPath.c_str());
 
 		pCard->DownloadImg(imgPath);
 	}
@@ -139,15 +139,8 @@ void CCardCtrl::OnPaint()
 		if ( m_pCardImage != NULL )
 			m_pCardImage->Destroy();
 
-		TCHAR path[_MAX_PATH] = _T("");
-		GetModuleFileName(NULL, path, _MAX_PATH);
-
-		std::wstring temp = path;
-		std::string pathT; pathT.assign(temp.begin(), temp.end());
-		std::string UpperPath = pathT.substr(0, pathT.rfind(L'\\'));
-
-		std::string imgPath = UpperPath + "\\Image\\";
-		_mkdir(imgPath.c_str());
+		std::wstring imgPath = CCardListMgr::GetInstance()->GetImgPath();
+		_wmkdir(imgPath.c_str());
 
 		m_pCard->DownloadImg(imgPath);
 	}

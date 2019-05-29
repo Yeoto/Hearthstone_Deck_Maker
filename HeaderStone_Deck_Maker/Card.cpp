@@ -332,7 +332,7 @@ BOOL CCard::ImportMechanics(std::vector<std::string> vecValue)
 	return TRUE;
 }
 
-void CCard::DownloadImg(std::string imgPath)
+void CCard::DownloadImg(std::wstring imgPath)
 {
 	// 황금 카드 정보가 있긴 하지만
 	// Gif 관련해서 설정하는건 귀찮으니까 안함

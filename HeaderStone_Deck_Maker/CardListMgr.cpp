@@ -19,11 +19,10 @@ CCardListMgr::CCardListMgr()
 	GetModuleFileName(NULL, path, _MAX_PATH);
 
 	std::wstring temp = path;
-	std::string pathT; pathT.assign(temp.begin(), temp.end());
-	std::string UpperPath = pathT.substr(0, pathT.rfind(L'\\'));
+	std::wstring UpperPath = temp.substr(0, temp.rfind(L'\\'));
 
-	std::string imgPath = UpperPath + "\\Image\\";
-	m_imgPath = imgPath;
+	m_ProgPath = UpperPath + _T("\\");
+	m_imgPath = UpperPath + _T("\\Image\\");
 }
 
 CCardListMgr::~CCardListMgr()
@@ -100,14 +99,7 @@ void CCardListMgr::AddCard(CCard * pCard)
 
 void CCardListMgr::MakeTempCard()
 {
-	TCHAR path[_MAX_PATH] = _T("");
-	GetModuleFileName(NULL, path, _MAX_PATH);
-
-	std::wstring temp = path;
-	std::string pathT; pathT.assign(temp.begin(), temp.end());
-	std::string UpperPath = pathT.substr(0, pathT.rfind(L'\\'));
-
-	std::string imgPath = UpperPath + "\\Image\\";
+	std::wstring imgPath = GetImgPath();
 
 	m_pTempCard = new CCard();
 	m_pTempCard->strCardID = _T("temp");
@@ -124,15 +116,8 @@ void CCardListMgr::TraceAll()
 
 void CCardListMgr::DownloadAllImg(BOOL* bContinu)
 {
-	TCHAR path[_MAX_PATH] = _T("");
-	GetModuleFileName(NULL, path, _MAX_PATH);
-
-	std::wstring temp = path;
-	std::string pathT; pathT.assign(temp.begin(), temp.end());
-	std::string UpperPath = pathT.substr(0, pathT.rfind(L'\\'));
-
-	std::string imgPath = UpperPath + "\\Image\\";
-	_mkdir(imgPath.c_str());
+	std::wstring imgPath = GetImgPath();
+	_wmkdir(imgPath.c_str());
 
 	for (CCard* pCard : m_vecCardList)
 	{
