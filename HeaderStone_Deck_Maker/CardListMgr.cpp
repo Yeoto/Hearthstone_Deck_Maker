@@ -311,3 +311,34 @@ void CCardListMgr::CardList2DeckCode(E_CARDCLASS eDeckClass, std::map<CCard*, in
 	deckCode = wstrTemp.c_str();
 }
 
+CString CCardListMgr::GetClassStringByEnum(E_CARDCLASS eClass)
+{
+	switch (eClass)
+	{
+		case E_CARDCLASS_NONE:
+			ASSERT(0);
+			return _T("");
+		case E_CARDCLASS_WARRIOR:
+			return _T("전사");
+		case E_CARDCLASS_SHAMAN:
+			return _T("주술사");
+		case E_CARDCLASS_ROGUE:
+			return _T("도적");
+		case E_CARDCLASS_PALADIN:
+			return _T("성기사");
+		case E_CARDCLASS_HUNTER:
+			return _T("사냥꾼");
+		case E_CARDCLASS_DRUID:
+			return _T("드루이드");
+		case E_CARDCLASS_WARLOCK:
+			return _T("흑마법사");
+		case E_CARDCLASS_MAGE:
+			return _T("마법사");
+		case E_CARDCLASS_PREIST:
+			return _T("사제");
+		default:
+			ASSERT(0);
+			return _T("");
+	}
+}
+

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++¿¡¼­ »ı¼ºÇÑ Æ÷ÇÔ ÆÄÀÏÀÔ´Ï´Ù.
-// HeaderStoneDeckMaker.rc¿¡¼­ »ç¿ëµÇ°í ÀÖ½À´Ï´Ù.
+// Microsoft Visual C++ì—ì„œ ìƒì„±í•œ í¬í•¨ íŒŒì¼ì…ë‹ˆë‹¤.
+// HeaderStoneDeckMaker.rcì—ì„œ ì‚¬ìš©ë˜ê³  ìˆìŠµë‹ˆë‹¤.
 //
 #define IDC_RESET_BTN                   2
 #define IDM_ABOUTBOX                    0x0010
@@ -14,6 +14,7 @@
 #define IDR_MENU                        137
 #define IDD_IMPORT_BY_METADECK_DLG      138
 #define IDD_MANACURVE_DLG               139
+#define IDD_IMPORT_BY_LOCAL_DLG         140
 #define IDC_CLASS_DRUID_RDO             1006
 #define IDC_CLASS_HUNTER_RDO            1007
 #define IDC_CLASS_MAGE_RDO              1008
@@ -26,6 +27,7 @@
 #define IDC_CLASS_FREE_RDO              1015
 #define IDC_BUTTON1                     1017
 #define IDC_FILTER_BTN                  1017
+#define IDC_MANACURVE_BTN               1017
 #define IDC_CARD_PAGE                   1018
 #define IDC_DECK_LIST                   1019
 #define IDC_CARDTYPE_MINION_CHK         1021

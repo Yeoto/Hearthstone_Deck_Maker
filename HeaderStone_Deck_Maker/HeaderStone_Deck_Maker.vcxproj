@@ -212,6 +212,7 @@
     <ClInclude Include="FilterDlg.h" />
     <ClInclude Include="HeaderStone_Deck_Maker.h" />
     <ClInclude Include="HeaderStone_Deck_MakerDlg.h" />
+    <ClInclude Include="ImportByLocalDlg.h" />
     <ClInclude Include="ManaCurveDlg.h" />
     <ClInclude Include="ImportByMetaDeck.h" />
     <ClInclude Include="ImportDlg.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="CardNotifier.cpp" />
     <ClCompile Include="ChartViewer.cpp" />
     <ClCompile Include="DeckListMgr.cpp" />
+    <ClCompile Include="ImportByLocalDlg.cpp" />
     <ClCompile Include="ManaCurveDlg.cpp" />
     <ClCompile Include="RegistryUtil.cpp" />
     <ClCompile Include="DeckListCtrl.cpp" />

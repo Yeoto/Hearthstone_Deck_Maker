@@ -39,6 +39,8 @@ public:
 	void CardList2DeckCode(E_CARDCLASS eDeckClass, std::map<CCard*, int> mapDeckList, CString& deckCode);
 
 	std::string GetImgPath() { return m_imgPath; }
+
+	CString GetClassStringByEnum(E_CARDCLASS eClass);
 private:
 	static CCardListMgr* m_pInstance;
 	static void destroy() { delete m_pInstance; }

@@ -92,6 +92,7 @@ BOOL CDeckListCtrl::ExecuteNotify(NOTIFYMSG eSender, WPARAM wParam, LPARAM lPara
 	}
 	case NTM_IMPORTDLG:
 	case NTM_IMPORTMETADECKDLG:
+	case NTM_IMPORTLOCALDLG:
 		SetDeckClass((E_CARDCLASS)wParam);
 		SetDeck(*(std::map<CCard*, int>*)lParam);
 		return TRUE;
@@ -122,6 +123,12 @@ void CDeckListCtrl::SetDeck(std::map<CCard*, int> mapDeckList)
 void CDeckListCtrl::GetDeck(CString& strDeck, std::map<CCard*, int>& mapDeckList)
 {
 	m_ctrlDeckName.GetWindowText(strDeck);
+
+	if (strDeck.GetLength() == 0)
+	{
+		AfxMessageBox(_T("덱 이름은 필수입니다. 임의의 이름으로 지정됩니다."));
+		strDeck = _T("나만의 덱");
+	}
 	mapDeckList = m_mapCards;
 }
 
