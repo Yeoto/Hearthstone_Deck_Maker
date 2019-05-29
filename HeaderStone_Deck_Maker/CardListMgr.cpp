@@ -13,8 +13,6 @@ CCardListMgr* CCardListMgr::m_pInstance;
 
 CCardListMgr::CCardListMgr()
 {
-	MakeTempCard();
-
 	TCHAR path[_MAX_PATH] = _T("");
 	GetModuleFileName(NULL, path, _MAX_PATH);
 
@@ -23,6 +21,8 @@ CCardListMgr::CCardListMgr()
 
 	m_ProgPath = UpperPath + _T("\\");
 	m_imgPath = UpperPath + _T("\\Image\\");
+
+	MakeTempCard();
 }
 
 CCardListMgr::~CCardListMgr()
